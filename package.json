@@ -1,0 +1,236 @@
+{
+  "name": "pascal",
+  "displayName": "Pascal Complete",
+  "description": "Full Pascal support with real-time diagnostics, syntax highlighting, and library indexing",
+  "version": "1.0.2",
+  "publisher": "PlayRood32",
+  "author": {
+    "name": "PlayRood32"
+  },
+  "license": "MIT",
+  "icon": "images/icon.png",
+  "galleryBanner": {
+    "color": "#0066CC",
+    "theme": "dark"
+  },
+  "engines": {
+    "vscode": "^1.60.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Snippets"
+  ],
+  "keywords": [
+    "pascal",
+    "delphi",
+    "object pascal",
+    "turbo pascal",
+    "free pascal",
+    "lazarus",
+    "syntax",
+    "highlighting",
+    "fpc",
+    "snippets"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/PlayRood32/vscode-pascal"
+  },
+  "bugs": {
+    "url": "https://github.com/PlayRood32/vscode-pascal/issues"
+  },
+  "homepage": "https://github.com/PlayRood32/vscode-pascal#readme",
+  "activationEvents": [
+    "onLanguage:pascal"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "icons": {
+      "pascal": {
+        "id": "pascal",
+        "description": "Pascal File Icon",
+        "default": {
+          "light": "./images/icon.svg",
+          "dark": "./images/icon.svg"
+        },
+        "priority": "builtin"
+      }
+    },
+    "languages": [
+      {
+        "id": "pascal",
+        "aliases": [
+          "Pascal",
+          "pascal",
+          "Delphi",
+          "Object Pascal"
+        ],
+        "extensions": [
+          ".pas",
+          ".pp",
+          ".p",
+          ".dpr",
+          ".lpr",
+          ".dpk",
+          ".lpk",
+          ".inc",
+          ".dproj",
+          ".lpi"
+        ],
+        "configuration": "./language-configuration.json",
+        "icon": {
+          "light": "./images/icon.svg",
+          "dark": "./images/icon.svg"
+        }
+      }
+    ],
+    "grammars": [
+      {
+        "language": "pascal",
+        "scopeName": "source.pascal",
+        "path": "./syntaxes/pascal.tmLanguage.json"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "pascal",
+        "path": "./snippets/snippets.json"
+      }
+    ],
+    "commands": [
+      {
+        "command": "pascal.compile",
+        "title": "Pascal: Compile Current File"
+      },
+      {
+        "command": "pascal.run",
+        "title": "Pascal: Run Compiled File"
+      }
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "Pascal Complete",
+      "properties": {
+        "pascal.compilerPath": {
+          "type": "string",
+          "default": "fpc",
+          "description": "Path to the Free Pascal Compiler (fpc). Leave as 'fpc' if it's in your system PATH.",
+          "scope": "machine-overridable"
+        },
+        "pascal.compilerOptions": {
+          "type": "array",
+          "default": [],
+          "description": "Additional compiler options to pass to FPC (e.g., ['-O3', '-gl'])",
+          "items": {
+            "type": "string"
+          },
+          "scope": "resource"
+        },
+        "pascal.outputPath": {
+          "type": "string",
+          "default": "",
+          "description": "Output directory for compiled executables. Leave empty to use the same directory as source file.",
+          "scope": "resource"
+        },
+        "pascal.compilerMode": {
+          "type": "string",
+          "enum": [
+            "FPC",
+            "Delphi",
+            "TP",
+            "MacPas",
+            "ISO"
+          ],
+          "default": "FPC",
+          "description": "Compiler compatibility mode",
+          "enumDescriptions": [
+            "Free Pascal mode (default)",
+            "Delphi compatibility mode",
+            "Turbo Pascal compatibility mode",
+            "Mac Pascal mode",
+            "ISO Pascal mode"
+          ],
+          "scope": "resource"
+        },
+        "pascal.syntaxCheckOnSave": {
+          "type": "boolean",
+          "default": true,
+          "description": "Check syntax when saving file (requires FPC installed)",
+          "scope": "resource"
+        },
+        "pascal.syntaxCheckOnChange": {
+          "type": "boolean",
+          "default": true,
+          "description": "Real-time syntax check on typing (debounced, requires FPC)",
+          "scope": "resource"
+        },
+        "pascal.showWarnings": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show compiler warnings in Problems panel (yellow underline)",
+          "scope": "resource"
+        },
+        "pascal.showHints": {
+          "type": "boolean",
+          "default": false,
+          "description": "Show compiler hints in Problems panel",
+          "scope": "resource"
+        },
+        "pascal.formatOnSave": {
+          "type": "boolean",
+          "default": false,
+          "description": "Format document when saving",
+          "scope": "resource"
+        },
+        "pascal.indentSize": {
+          "type": "number",
+          "default": 2,
+          "minimum": 1,
+          "maximum": 8,
+          "description": "Number of spaces for indentation",
+          "scope": "resource"
+        },
+        "pascal.insertSpaces": {
+          "type": "boolean",
+          "default": true,
+          "description": "Use spaces instead of tabs for indentation",
+          "scope": "resource"
+        },
+        "pascal.exeExt": {
+          "type": "string",
+          "default": ".exe",
+          "description": "Executable extension (auto-detected for Windows)",
+          "scope": "resource"
+        }
+      }
+    },
+    "taskDefinitions": [
+      {
+        "type": "pascal",
+        "required": [
+          "command"
+        ],
+        "properties": {
+          "command": {
+            "type": "string"
+          }
+        }
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "package": "vsce package",
+    "publish": "vsce publish"
+  },
+  "dependencies": {
+    "vscode-languageclient": "^9.0.1"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.60.0",
+    "@types/node": "^24.10.1",
+    "typescript": "^5.0.0"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es2020",
+    "outDir": "./out",
+    "lib": ["es2020"],
+    "types": ["node"],
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "rootDir": ".",
+    "strict": true
+  },
+  "include": ["extension.ts"],
+  "exclude": ["node_modules"]
+}

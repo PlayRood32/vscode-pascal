@@ -1,0 +1,283 @@
+{
+  "Program Template": {
+    "prefix": "program",
+    "body": [
+      "program ${1:ProgramName};",
+      "",
+      "uses",
+      "  ${2:crt};",
+      "",
+      "begin",
+      "  ${3:// Your code here}",
+      "end."
+    ],
+    "description": "Basic Pascal program template"
+  },
+  "Unit Template": {
+    "prefix": "unit",
+    "body": [
+      "unit ${1:UnitName};",
+      "",
+      "interface",
+      "",
+      "uses",
+      "  ${2:crt};",
+      "",
+      "${3:// Interface declarations}",
+      "",
+      "implementation",
+      "",
+      "${4:// Implementation}",
+      "",
+      "end."
+    ],
+    "description": "Pascal unit template"
+  },
+  "Procedure": {
+    "prefix": "proc",
+    "body": [
+      "procedure $$ {1:ProcedureName}( $${2:params});",
+      "begin",
+      "  ${3:// Procedure body}",
+      "end;"
+    ],
+    "description": "Procedure declaration"
+  },
+  "Function": {
+    "prefix": "func",
+    "body": [
+      "function $$ {1:FunctionName}( $${2:params}): ${3:ReturnType};",
+      "begin",
+      "  Result := ${4:value};",
+      "end;"
+    ],
+    "description": "Function declaration"
+  },
+  "If Statement": {
+    "prefix": "ifst",
+    "body": [
+      "if ${1:condition} then",
+      "begin",
+      "  ${2:// Code}",
+      "end;"
+    ],
+    "description": "If statement"
+  },
+  "If-Else Statement": {
+    "prefix": "ifelse",
+    "body": [
+      "if ${1:condition} then",
+      "begin",
+      "  ${2:// True branch}",
+      "end",
+      "else",
+      "begin",
+      "  ${3:// False branch}",
+      "end;"
+    ],
+    "description": "If-else statement"
+  },
+  "For Loop": {
+    "prefix": "forlp",
+    "body": [
+      "for ${1:i} := ${2:0} to ${3:10} do",
+      "begin",
+      "  ${4:// Loop body}",
+      "end;"
+    ],
+    "description": "For loop"
+  },
+  "For Downto Loop": {
+    "prefix": "fordown",
+    "body": [
+      "for ${1:i} := ${2:10} downto ${3:0} do",
+      "begin",
+      "  ${4:// Loop body}",
+      "end;"
+    ],
+    "description": "For downto loop"
+  },
+  "While Loop": {
+    "prefix": "whilelp",
+    "body": [
+      "while ${1:condition} do",
+      "begin",
+      "  ${2:// Loop body}",
+      "end;"
+    ],
+    "description": "While loop"
+  },
+  "Repeat-Until Loop": {
+    "prefix": "repeat",
+    "body": [
+      "repeat",
+      "  ${1:// Loop body}",
+      "until ${2:condition};"
+    ],
+    "description": "Repeat-until loop"
+  },
+  "Case Statement": {
+    "prefix": "caseof",
+    "body": [
+      "case ${1:variable} of",
+      "  ${2:value1}: ${3:statement1};",
+      "  ${4:value2}: ${5:statement2};",
+      "  else ${6:statement};",
+      "end;"
+    ],
+    "description": "Case statement"
+  },
+  "Class Declaration": {
+    "prefix": "class",
+    "body": [
+      "$$ {1:TMyClass} = class( $${2:TObject})",
+      "private",
+      "  ${3:// Private members}",
+      "protected",
+      "  ${4:// Protected members}",
+      "public",
+      "  ${5:// Public members}",
+      "end;"
+    ],
+    "description": "Class declaration"
+  },
+  "Record Declaration": {
+    "prefix": "record",
+    "body": [
+      "${1:TMyRecord} = record",
+      "  ${2:field1}: ${3:Integer};",
+      "  ${4:field2}: ${5:String};",
+      "end;"
+    ],
+    "description": "Record declaration"
+  },
+  "Property Declaration": {
+    "prefix": "prop",
+    "body": [
+      "property ${1:PropertyName}: ${2:Type} read ${3:FPropertyName} write ${4:SetPropertyName};"
+    ],
+    "description": "Property declaration"
+  },
+  "Read-Only Property": {
+    "prefix": "roprop",
+    "body": [
+      "property ${1:PropertyName}: ${2:Type} read ${3:FPropertyName};"
+    ],
+    "description": "Read-only property"
+  },
+  "WriteLn": {
+    "prefix": "wln",
+    "body": [
+      "WriteLn(${1:output});"
+    ],
+    "description": "WriteLn statement"
+  },
+  "Write": {
+    "prefix": "wr",
+    "body": [
+      "Write(${1:output});"
+    ],
+    "description": "Write statement"
+  },
+  "ReadLn": {
+    "prefix": "rln",
+    "body": [
+      "ReadLn(${1:variable});"
+    ],
+    "description": "ReadLn statement"
+  },
+  "Read": {
+    "prefix": "rd",
+    "body": [
+      "Read(${1:variable});"
+    ],
+    "description": "Read statement"
+  },
+  "Array Declaration": {
+    "prefix": "array",
+    "body": [
+      "$$ {1:ArrayName}: array[ $${2:0}..${3:10}] of ${4:Integer};"
+    ],
+    "description": "Array declaration"
+  },
+  "Dynamic Array": {
+    "prefix": "dynarray",
+    "body": [
+      "${1:ArrayName}: array of ${2:Integer};"
+    ],
+    "description": "Dynamic array declaration"
+  },
+  "With Statement": {
+    "prefix": "withst",
+    "body": [
+      "with ${1:object} do",
+      "begin",
+      "  ${2:// Code}",
+      "end;"
+    ],
+    "description": "With statement"
+  },
+  "Interface": {
+    "prefix": "interface",
+    "body": [
+      "${1:IMyInterface} = interface",
+      "  ['{${2:GUID}}']",
+      "  ${3:// Interface methods}",
+      "end;"
+    ],
+    "description": "Interface declaration"
+  },
+  "Enum Type": {
+    "prefix": "enum",
+    "body": [
+      "$$ {1:TMyEnum} = ( $${2:value1}, ${3:value2}, ${4:value3});"
+    ],
+    "description": "Enumeration type"
+  },
+  "Set Type": {
+    "prefix": "set",
+    "body": [
+      "${1:TMySet} = set of ${2:TMyEnum};"
+    ],
+    "description": "Set type declaration"
+  },
+  "Var Declaration": {
+    "prefix": "var",
+    "body": [
+      "var",
+      "  ${1:name}: ${2:type};"
+    ],
+    "description": "Variable declaration"
+  },
+  "Const Declaration": {
+    "prefix": "const",
+    "body": [
+      "const",
+      "  ${1:name} = ${2:value};"
+    ],
+    "description": "Constant declaration"
+  },
+  "Generic Class": {
+    "prefix": "genclass",
+    "body": [
+      "$$ {1:TMyGeneric}< $${2:T}> = class(${3:TObject})",
+      "private",
+      "  ${4:// Members}",
+      "public",
+      "  ${5:// Methods}",
+      "end;"
+    ],
+    "description": "Generic class declaration"
+  },
+  "IfDef Directive": {
+    "prefix": "ifdef",
+    "body": [
+      "{$IFDEF ${1:Condition}}",
+      "  ${2:// Code}",
+      "{$ELSE}",
+      "  ${3:// Alternative}",
+      "{$ENDIF}"
+    ],
+    "description": "Conditional compilation directive"
+  }
+}
