@@ -27,4 +27,5 @@ MIT License. See [LICENSE](LICENSE) for details.
 
 ---
 
-*For issues or contributions: [GitHub Repository](https://github.com/PlayRood32/vscode-pascal)*
+*For issues or contributions: [GitHub Repository](https://github.com/PlayRood32/vscode-pascal)*# vscode-pascal
+# vscode-pascal
