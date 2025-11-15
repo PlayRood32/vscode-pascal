@@ -36,7 +36,7 @@
   "Procedure": {
     "prefix": "proc",
     "body": [
-      "procedure $$ {1:ProcedureName}( $${2:params});",
+      "procedure ${1:ProcedureName}(${2:params});",
       "begin",
       "  ${3:// Procedure body}",
       "end;"
@@ -46,7 +46,7 @@
   "Function": {
     "prefix": "func",
     "body": [
-      "function $$ {1:FunctionName}( $${2:params}): ${3:ReturnType};",
+      "function ${1:FunctionName}(${2:params}): ${3:ReturnType};",
       "begin",
       "  Result := ${4:value};",
       "end;"
@@ -130,7 +130,7 @@
   "Class Declaration": {
     "prefix": "class",
     "body": [
-      "$$ {1:TMyClass} = class( $${2:TObject})",
+      "${1:TMyClass} = class(${2:TObject})",
       "private",
       "  ${3:// Private members}",
       "protected",
@@ -166,37 +166,37 @@
     "description": "Read-only property"
   },
   "WriteLn": {
-    "prefix": "wln",
+    "prefix": "writeln",
     "body": [
-      "WriteLn(${1:output});"
+      "writeln(${1:output});"
     ],
-    "description": "WriteLn statement"
+    "description": "writeln statement (lowercase standard)"
   },
   "Write": {
-    "prefix": "wr",
+    "prefix": "write",
     "body": [
-      "Write(${1:output});"
+      "write(${1:output});"
     ],
-    "description": "Write statement"
+    "description": "write statement (lowercase standard)"
   },
   "ReadLn": {
-    "prefix": "rln",
+    "prefix": "readln",
     "body": [
-      "ReadLn(${1:variable});"
+      "readln(${1:variable});"
     ],
-    "description": "ReadLn statement"
+    "description": "readln statement"
   },
   "Read": {
-    "prefix": "rd",
+    "prefix": "read",
     "body": [
-      "Read(${1:variable});"
+      "read(${1:variable});"
     ],
-    "description": "Read statement"
+    "description": "read statement"
   },
   "Array Declaration": {
     "prefix": "array",
     "body": [
-      "$$ {1:ArrayName}: array[ $${2:0}..${3:10}] of ${4:Integer};"
+      "${1:ArrayName}: array[${2:0}..${3:10}] of ${4:Integer};"
     ],
     "description": "Array declaration"
   },
@@ -230,7 +230,7 @@
   "Enum Type": {
     "prefix": "enum",
     "body": [
-      "$$ {1:TMyEnum} = ( $${2:value1}, ${3:value2}, ${4:value3});"
+      "${1:TMyEnum} = (${2:value1}, ${3:value2}, ${4:value3});"
     ],
     "description": "Enumeration type"
   },
@@ -260,7 +260,7 @@
   "Generic Class": {
     "prefix": "genclass",
     "body": [
-      "$$ {1:TMyGeneric}< $${2:T}> = class(${3:TObject})",
+      "${1:TMyGeneric}<${2:T}> = class(${3:TObject})",
       "private",
       "  ${4:// Members}",
       "public",
@@ -268,6 +268,28 @@
       "end;"
     ],
     "description": "Generic class declaration"
+  },
+  "Generic Function": {
+    "prefix": "genfunc",
+    "body": [
+      "generic function ${1:GenericFunc}<${2:T}>(param: ${3:T}): ${4:T};",
+      "begin",
+      "  ${5:// Generic implementation}",
+      "end;"
+    ],
+    "description": "Generic function (professional addition)"
+  },
+  "Try-Except Block": {
+    "prefix": "tryexcept",
+    "body": [
+      "try",
+      "  ${1:// Code}",
+      "except",
+      "  on E: Exception do",
+      "    writeln('Error: ', E.Message);",
+      "end;"
+    ],
+    "description": "Try-except error handling (professional)"
   },
   "IfDef Directive": {
     "prefix": "ifdef",
