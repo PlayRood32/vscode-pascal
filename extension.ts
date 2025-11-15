@@ -8,7 +8,7 @@ let diagnosticCollection: vscode.DiagnosticCollection;
 let debounceTimer: NodeJS.Timeout | undefined;
 
 export function activate(context: vscode.ExtensionContext) {
-    // LSP for pascal-language-server (full support for libraries, user code, real-time)
+    // LSP for pascal-language-server (full support for libraries, user code, real-time) - only for Pascal
     const serverOptions: ServerOptions = {
         command: 'pascal-language-server',
         args: []
@@ -29,24 +29,47 @@ export function activate(context: vscode.ExtensionContext) {
         vscode.window.showWarningMessage('Pascal LSP not found. Install from https://github.com/genericptr/pascal-language-server for full features.');
     }
 
-    // Diagnostics collection (only for Pascal)
+    // Diagnostics collection (only for Pascal files)
     diagnosticCollection = vscode.languages.createDiagnosticCollection('pascal');
     context.subscriptions.push(diagnosticCollection);
 
-    // Real-time syntax check on change (debounce 500ms, backup for LSP)
-    const checkOnChange = vscode.workspace.onDidChangeTextDocument(debouncedCheckSyntax);
+    // Real-time syntax check on change (debounce 500ms, backup for LSP) - only Pascal
+    const checkOnChange = vscode.workspace.onDidChangeTextDocument((event) => {
+        if (event.document.languageId === 'pascal') {
+            debouncedCheckSyntax(event);
+        }
+    });
     context.subscriptions.push(checkOnChange);
 
-    // On save as fallback
+    // On save as fallback - only Pascal
     if (vscode.workspace.getConfiguration('pascal').get('syntaxCheckOnSave')) {
-        context.subscriptions.push(vscode.workspace.onDidSaveTextDocument(checkSyntax));
+        const onSave = vscode.workspace.onDidSaveTextDocument((doc) => {
+            if (doc.languageId === 'pascal') {
+                checkSyntax(doc);
+            }
+        });
+        context.subscriptions.push(onSave);
     }
 
-    // Commands
-    context.subscriptions.push(vscode.commands.registerCommand('pascal.compile', compileFile));
-    context.subscriptions.push(vscode.commands.registerCommand('pascal.run', runFile));
+    // Commands - only for Pascal files
+    context.subscriptions.push(vscode.commands.registerCommand('pascal.compile', () => {
+        const editor = vscode.window.activeTextEditor;
+        if (!editor || editor.document.languageId !== 'pascal') {
+            vscode.window.showErrorMessage('No Pascal file open.');
+            return;
+        }
+        compileFile();
+    }));
+    context.subscriptions.push(vscode.commands.registerCommand('pascal.run', () => {
+        const editor = vscode.window.activeTextEditor;
+        if (!editor || editor.document.languageId !== 'pascal') {
+            vscode.window.showErrorMessage('No Pascal file open.');
+            return;
+        }
+        runFile();
+    }));
 
-    // Tasks Provider
+    // Tasks Provider - only Pascal
     context.subscriptions.push(vscode.tasks.registerTaskProvider('pascal', {
         provideTasks: () => {
             return [new vscode.Task({ type: 'pascal' }, vscode.TaskScope.Workspace, 'Compile', 'Pascal', new vscode.ShellExecution('fpc ${file}'))];
@@ -54,9 +77,10 @@ export function activate(context: vscode.ExtensionContext) {
         resolveTask: (task) => task
     }));
 
-    // Formatting Provider (improved for full Pascal)
+    // Formatting Provider (improved for full Pascal, generics, attributes)
     context.subscriptions.push(vscode.languages.registerDocumentFormattingEditProvider('pascal', {
         provideDocumentFormattingEdits(document: vscode.TextDocument): vscode.TextEdit[] {
+            if (document.languageId !== 'pascal') return []; // Strict to Pascal
             const edits: vscode.TextEdit[] = [];
             const indentSize = vscode.workspace.getConfiguration('pascal').get<number>('indentSize', 2);
             const insertSpaces = vscode.workspace.getConfiguration('pascal').get<boolean>('insertSpaces', true);
@@ -65,7 +89,7 @@ export function activate(context: vscode.ExtensionContext) {
             const lines = document.getText().split('\n');
             for (let i = 0; i < lines.length; i++) {
                 let line = lines[i].trim();
-                let trimmedLine = line.replace(/\{.*?\}|\(\*.*?\*\)/g, ''); // Ignore comments
+                let trimmedLine = line.replace(/\{.*?\}|\(\*.*?\*\)/g, '').replace(/\[[^\]]*\]/g, ''); // Ignore comments and attributes
                 // Decrease indent
                 if (/^(end|until|else|od|fi|except|finally);?$/.test(trimmedLine) || trimmedLine.match(/^\w+\s*:\s*(end|until|else)/)) {
                     level = Math.max(0, level - 1);
@@ -78,10 +102,11 @@ export function activate(context: vscode.ExtensionContext) {
                 if (currentIndent !== expectedIndent) {
                     edits.push(vscode.TextEdit.replace(new vscode.Range(new vscode.Position(i, 0), new vscode.Position(i, currentIndent)), tab.repeat(level)));
                 }
-                // Increase indent (full Pascal blocks, generics)
+                // Increase indent (full Pascal blocks, generics, attributes)
                 if (/^(begin|record|class|object|interface|case|repeat|try|procedure|function|constructor|destructor|if|for|while)/.test(trimmedLine) ||
                     trimmedLine.match(/:\s*(array|set|record|class<)/) ||
-                    trimmedLine.match(/\bgeneric\b/)) {
+                    trimmedLine.match(/\bgeneric\b/) ||
+                    trimmedLine.match(/^\[.*\]/)) { // Attributes
                     level++;
                 }
             }
@@ -89,17 +114,20 @@ export function activate(context: vscode.ExtensionContext) {
         }
     }));
 
+    // Format on save - only Pascal
     if (vscode.workspace.getConfiguration('pascal').get('formatOnSave')) {
-        context.subscriptions.push(vscode.workspace.onWillSaveTextDocument((e) => {
+        const onWillSave = vscode.workspace.onWillSaveTextDocument((e) => {
             if (e.document.languageId === 'pascal') {
                 vscode.commands.executeCommand('editor.action.formatDocument');
             }
-        }));
+        });
+        context.subscriptions.push(onWillSave);
     }
 
-    // Completion provider (learns from user libraries via LSP fallback)
+    // Completion provider (learns from user libraries via LSP fallback) - only Pascal
     context.subscriptions.push(vscode.languages.registerCompletionItemProvider('pascal', {
         provideCompletionItems(document: vscode.TextDocument, position: vscode.Position) {
+            if (document.languageId !== 'pascal') return undefined;
             // Fallback symbols from document (for user vars/functions)
             const linePrefix = document.lineAt(position).text.substr(0, position.character);
             if (!linePrefix.match(/uses\s*$/)) return undefined;
@@ -116,6 +144,7 @@ export function activate(context: vscode.ExtensionContext) {
     // Symbol Provider (full for Pascal)
     context.subscriptions.push(vscode.languages.registerDocumentSymbolProvider('pascal', {
         provideDocumentSymbols(document: vscode.TextDocument): vscode.DocumentSymbol[] {
+            if (document.languageId !== 'pascal') return [];
             const symbols: vscode.DocumentSymbol[] = [];
             const lines = document.getText().split('\n');
             lines.forEach((line, i) => {
@@ -137,12 +166,13 @@ export function deactivate(): Thenable<void> | undefined {
 }
 
 function debouncedCheckSyntax(event: vscode.TextDocumentChangeEvent) {
+    if (event.document.languageId !== 'pascal') return;
     if (debounceTimer) clearTimeout(debounceTimer);
     debounceTimer = setTimeout(() => checkSyntax(event.document), 500); // Debounce 500ms for real-time
 }
 
 function checkSyntax(document: vscode.TextDocument) {
-    if (document.languageId !== 'pascal') return; // Only Pascal
+    if (document.languageId !== 'pascal') return; // Strict to Pascal
     diagnosticCollection.clear();
     const file = document.fileName;
     const compiler = vscode.workspace.getConfiguration('pascal').get<string>('compilerPath', 'fpc');

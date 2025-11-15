@@ -81,7 +81,7 @@
       "patterns": [
         {
           "name": "entity.name.function.pascal",
-          "match": "\\b(?i:(Write|WriteLn|Read|ReadLn|Str|Val|Inc|Dec|New|Dispose|Ord|Chr|Length|SetLength|Copy|Pos|Delete|Insert|UpCase|LowCase|Trim|Format|IntToStr|StrToInt|FloatToStr|StrToFloat|DateToStr|StrToDate|Now|Random|Randomize|Sqrt|Sin|Cos|Tan|Abs|Round|Trunc|Assert|Halt|Exit|Break|Continue))\\b"
+          "match": "\\b(?i:(write|writeln|Write|WriteLn|read|readln|Read|ReadLn|str|val|inc|dec|new|dispose|ord|chr|length|setlength|copy|pos|delete|insert|upcase|lowcase|trim|format|inttostr|strtoint|floattostr|strtofloat|datetostr|strtodate|now|random|randomize|sqrt|sin|cos|tan|abs|round|trunc|assert|halt|exit|break|continue))\\b"
         }
       ]
     },

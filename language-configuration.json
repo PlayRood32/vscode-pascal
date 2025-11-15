@@ -26,14 +26,14 @@
   ],
   "folding": {
     "markers": {
-      "start": "^\\s*(\\{|\$$   \\*|begin|repeat|record|class|object|interface|case|try|except|finally|asm)\\b",
-      "end": "^\\s*(\\}|\\*\   $$|end|until)\\b"
+      "start": "^\\s*(\\{|\\$\\*\\s?|begin|repeat|record|class|object|interface|case|try|except|finally|asm)\\b",
+      "end": "^\\s*(\\;|\\*\\s?\\$|end|until)\\b"
     }
   },
-  "wordPattern": "(-?\\d*\\.\\d\\w*)|([_\\w][^\\`\\~\\!\\@\\#\\%\\^\\&\\*\$$   \   $$\\-\\=\\+\$$   \\{\   $$\\}\\\\\\|\\;\\:\\'\\\"\\,\\.\\<\\>\\/\\?\\s]+)",
+  "wordPattern": "(-?\\d*\\.\\d\\w*)|([_\\w][^\\`\\~\\!\\@\\#\\%\\^\\&\\*\\$\\-\\=\\+\\{\\}\\\\\\|\\;\\:\\'\\\"\\,\\.\\<\\>\\/\\?\\s]+)",
   "indentationRules": {
-    "increaseIndentPattern": "^\\s*(begin|record|class|object|interface|case|repeat|try|except|finally|asm|procedure|function)\\b",
-    "decreaseIndentPattern": "^\\s*(end|until|else)\\b"
+    "increaseIndentPattern": "^\\s*(begin|record|class|object|interface|case|repeat|try|except|finally|asm|procedure|function|constructor|destructor|if|for|while|generic)\\b",
+    "decreaseIndentPattern": "^\\s*(end|until|else|od|fi)\\b"
   },
   "onEnterRules": [
     {
@@ -58,6 +58,10 @@
     },
     {
       "beforeText": "^\\s*case\\s+.*\\s+of\\s*$",
+      "action": { "indent": "indent" }
+    },
+    {
+      "beforeText": "^\\s*generic\\s+.*\\s*$",
       "action": { "indent": "indent" }
     }
   ]

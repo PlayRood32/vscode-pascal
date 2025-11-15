@@ -1,11 +1,18 @@
-program Main;
+program main;
 
-const
-  num: integer = 1;
-  
+{$APPTYPE CONSOLE}
+
+uses
+  SysUtils;
+
 var
-  name: string;
+    name: string;
 
 begin
-  writeln(nigga);
+    Writeln('Enter your name: ');
+    ReadLn(name);
+    WriteLn('Hello, ', name, '! Welcome to Pascal programming.');
+    WriteLn('Press Enter to exit.');
+    ReadLn;
 end.
+
