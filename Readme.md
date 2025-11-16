@@ -1,9 +1,3 @@
-להלן גרסה מסודרת ל-README, נקייה, קריאה וברורה — ללא תוספות מיותרות, רק תוכן מאורגן היטב.
-אתה יכול להעתיק ולהדביק ישירות כ-`README.md`.
-
----
-
-````markdown
 # Pascal Complete
 
 Pascal Complete is a powerful Visual Studio Code extension for modern Pascal development. It offers intelligent code completions, real-time diagnostics, refactoring tools, and full integration with Free Pascal, Delphi, Turbo Pascal, and Object Pascal.
@@ -300,5 +294,3 @@ MIT License.
 
 * Issues: [https://github.com/PlayRood32/vscode-pascal/issues](https://github.com/PlayRood32/vscode-pascal/issues)
 * Discussions: [https://github.com/PlayRood32/vscode-pascal/discussions](https://github.com/PlayRood32/vscode-pascal/discussions)
-
-```
