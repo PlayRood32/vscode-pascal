@@ -1,70 +1,141 @@
 {
   "Program Template": {
-    "prefix": "program",
+    "prefix": [
+      "program",
+      "prog"
+    ],
     "body": [
-      "program ${1:ProgramName};",
+      "program ${1:main};",
       "",
       "uses",
       "  ${2:crt};",
       "",
       "begin",
-      "  ${3:// Your code here}",
+      "  ${0:// Your code here}",
       "end."
     ],
-    "description": "Basic Pascal program template"
+    "description": "Complete Pascal program with uses clause"
+  },
+  "Simple Program": {
+    "prefix": "pmin",
+    "body": [
+      "program ${1:main};",
+      "",
+      "begin",
+      "  ${0}",
+      "end."
+    ],
+    "description": "Minimal Pascal program"
   },
   "Unit Template": {
     "prefix": "unit",
     "body": [
       "unit ${1:UnitName};",
       "",
+      "{$mode objfpc}{$H+}",
+      "",
       "interface",
       "",
       "uses",
-      "  ${2:crt};",
+      "  ${2:Classes, SysUtils};",
       "",
-      "${3:// Interface declarations}",
+      "${3:// Public declarations}",
       "",
       "implementation",
       "",
-      "${4:// Implementation}",
+      "${4:// Private implementation}",
       "",
       "end."
     ],
-    "description": "Pascal unit template"
+    "description": "Professional Pascal unit with mode directive"
   },
   "Procedure": {
-    "prefix": "proc",
+    "prefix": [
+      "proc",
+      "procedure"
+    ],
     "body": [
-      "procedure ${1:ProcedureName}(${2:params});",
+      "procedure $$   {1:ProcedureName}(   $${2:params});",
       "begin",
-      "  ${3:// Procedure body}",
+      "  ${0}",
       "end;"
     ],
     "description": "Procedure declaration"
   },
   "Function": {
-    "prefix": "func",
+    "prefix": [
+      "func",
+      "function"
+    ],
     "body": [
-      "function ${1:FunctionName}(${2:params}): ${3:ReturnType};",
+      "function $$   {1:FunctionName}(   $${2:params}): ${3:ReturnType};",
       "begin",
-      "  Result := ${4:value};",
+      "  Result := ${0:value};",
       "end;"
     ],
-    "description": "Function declaration"
+    "description": "Function with Result"
+  },
+  "Function with Variables": {
+    "prefix": "funcvar",
+    "body": [
+      "function $$   {1:FunctionName}(   $${2:params}): ${3:ReturnType};",
+      "var",
+      "  ${4:localVar}: ${5:Type};",
+      "begin",
+      "  ${6:// Implementation}",
+      "  Result := ${0:value};",
+      "end;"
+    ],
+    "description": "Function with local variables"
+  },
+  "WriteLn Statement": {
+    "prefix": [
+      "wl",
+      "writeln"
+    ],
+    "body": "writeln($0);",
+    "description": "Write line to console"
+  },
+  "Write Statement": {
+    "prefix": "wr",
+    "body": "write($0);",
+    "description": "Write to console without newline"
+  },
+  "ReadLn Statement": {
+    "prefix": [
+      "rl",
+      "readln"
+    ],
+    "body": "readln($0);",
+    "description": "Read line from console"
+  },
+  "Read Statement": {
+    "prefix": "rd",
+    "body": "read($0);",
+    "description": "Read from console"
+  },
+  "WriteLn with Format": {
+    "prefix": "wlf",
+    "body": "writeln('${1:text}: ', $0);",
+    "description": "Write formatted line"
   },
   "If Statement": {
-    "prefix": "ifst",
+    "prefix": "if",
     "body": [
       "if ${1:condition} then",
       "begin",
-      "  ${2:// Code}",
+      "  ${0}",
       "end;"
     ],
-    "description": "If statement"
+    "description": "If statement with begin-end"
+  },
+  "If Single Line": {
+    "prefix": "ifs",
+    "body": "if ${1:condition} then ${0:statement};",
+    "description": "Single-line if statement"
   },
   "If-Else Statement": {
-    "prefix": "ifelse",
+    "prefix": "ife",
     "body": [
       "if ${1:condition} then",
       "begin",
@@ -72,234 +143,497 @@
       "end",
       "else",
       "begin",
-      "  ${3:// False branch}",
+      "  ${0:// False branch}",
       "end;"
     ],
-    "description": "If-else statement"
+    "description": "If-else with begin-end blocks"
+  },
+  "If-Else-If Chain": {
+    "prefix": "ifeif",
+    "body": [
+      "if ${1:condition1} then",
+      "begin",
+      "  ${2}",
+      "end",
+      "else if ${3:condition2} then",
+      "begin",
+      "  ${4}",
+      "end",
+      "else",
+      "begin",
+      "  ${0}",
+      "end;"
+    ],
+    "description": "If-else-if chain"
+  },
+  "If with Begin-End Block": {
+    "prefix": "ifB",
+    "body": [
+      "if ${1:condition} then",
+      "begin",
+      "  ${0}",
+      "end;"
+    ],
+    "description": "If statement with explicit begin-end block (for multi-line)"
   },
   "For Loop": {
-    "prefix": "forlp",
+    "prefix": "for",
     "body": [
-      "for ${1:i} := ${2:0} to ${3:10} do",
+      "for ${1:i} := ${2:1} to ${3:10} do",
       "begin",
-      "  ${4:// Loop body}",
+      "  ${0}",
       "end;"
     ],
-    "description": "For loop"
+    "description": "For loop with begin-end"
+  },
+  "For Single Line": {
+    "prefix": "fors",
+    "body": "for ${1:i} := ${2:1} to ${3:10} do ${0:statement};",
+    "description": "Single-line for loop"
   },
   "For Downto Loop": {
     "prefix": "fordown",
     "body": [
-      "for ${1:i} := ${2:10} downto ${3:0} do",
+      "for ${1:i} := ${2:10} downto ${3:1} do",
       "begin",
-      "  ${4:// Loop body}",
+      "  ${0}",
       "end;"
     ],
     "description": "For downto loop"
   },
   "While Loop": {
-    "prefix": "whilelp",
+    "prefix": "while",
     "body": [
       "while ${1:condition} do",
       "begin",
-      "  ${2:// Loop body}",
+      "  ${0}",
       "end;"
     ],
     "description": "While loop"
   },
-  "Repeat-Until Loop": {
+  "Repeat Until": {
     "prefix": "repeat",
     "body": [
       "repeat",
-      "  ${1:// Loop body}",
-      "until ${2:condition};"
+      "  ${0}",
+      "until ${1:condition};"
     ],
     "description": "Repeat-until loop"
   },
   "Case Statement": {
-    "prefix": "caseof",
+    "prefix": "case",
     "body": [
-      "case ${1:variable} of",
-      "  ${2:value1}: ${3:statement1};",
-      "  ${4:value2}: ${5:statement2};",
-      "  else ${6:statement};",
+      "case ${1:expression} of",
+      "  ${2:value1}:",
+      "    ${3:// code}",
+      "  ${4:value2}:",
+      "    ${5:// code};",
+      "  else",
+      "    ${0:// default};",
       "end;"
     ],
-    "description": "Case statement"
+    "description": "Case-of statement"
+  },
+  "Try Except": {
+    "prefix": "tryex",
+    "body": [
+      "try",
+      "  ${1:// protected code}",
+      "except",
+      "  on E: Exception do",
+      "  begin",
+      "    ${2:// handle error}",
+      "  end;",
+      "end;"
+    ],
+    "description": "Try-except block"
+  },
+  "Try Finally": {
+    "prefix": "tryfin",
+    "body": [
+      "try",
+      "  ${1:// code}",
+      "finally",
+      "  ${0:// cleanup};",
+      "end;"
+    ],
+    "description": "Try-finally block"
+  },
+  "Record Type": {
+    "prefix": "record",
+    "body": [
+      "type",
+      "  ${1:TMyRecord} = record",
+      "    ${2:field1}: ${3:Type};",
+      "    ${0:field2}: Type;",
+      "  end;"
+    ],
+    "description": "Record type declaration"
   },
   "Class Declaration": {
     "prefix": "class",
     "body": [
-      "${1:TMyClass} = class(${2:TObject})",
-      "private",
-      "  ${3:// Private members}",
-      "protected",
-      "  ${4:// Protected members}",
-      "public",
-      "  ${5:// Public members}",
-      "end;"
+      "type",
+      "  ${1:TMyClass} = class",
+      "  private",
+      "    ${2:// private fields}",
+      "  public",
+      "    ${3:constructor Create;};",
+      "    ${0:destructor Destroy; override;};",
+      "  end;"
     ],
     "description": "Class declaration"
   },
-  "Record Declaration": {
-    "prefix": "record",
+  "Interface Declaration": {
+    "prefix": "interf",
     "body": [
-      "${1:TMyRecord} = record",
-      "  ${2:field1}: ${3:Integer};",
-      "  ${4:field2}: ${5:String};",
-      "end;"
-    ],
-    "description": "Record declaration"
-  },
-  "Property Declaration": {
-    "prefix": "prop",
-    "body": [
-      "property ${1:PropertyName}: ${2:Type} read ${3:FPropertyName} write ${4:SetPropertyName};"
-    ],
-    "description": "Property declaration"
-  },
-  "Read-Only Property": {
-    "prefix": "roprop",
-    "body": [
-      "property ${1:PropertyName}: ${2:Type} read ${3:FPropertyName};"
-    ],
-    "description": "Read-only property"
-  },
-  "WriteLn": {
-    "prefix": "writeln",
-    "body": [
-      "writeln(${1:output});"
-    ],
-    "description": "writeln statement (lowercase standard)"
-  },
-  "Write": {
-    "prefix": "write",
-    "body": [
-      "write(${1:output});"
-    ],
-    "description": "write statement (lowercase standard)"
-  },
-  "ReadLn": {
-    "prefix": "readln",
-    "body": [
-      "readln(${1:variable});"
-    ],
-    "description": "readln statement"
-  },
-  "Read": {
-    "prefix": "read",
-    "body": [
-      "read(${1:variable});"
-    ],
-    "description": "read statement"
-  },
-  "Array Declaration": {
-    "prefix": "array",
-    "body": [
-      "${1:ArrayName}: array[${2:0}..${3:10}] of ${4:Integer};"
-    ],
-    "description": "Array declaration"
-  },
-  "Dynamic Array": {
-    "prefix": "dynarray",
-    "body": [
-      "${1:ArrayName}: array of ${2:Integer};"
-    ],
-    "description": "Dynamic array declaration"
-  },
-  "With Statement": {
-    "prefix": "withst",
-    "body": [
-      "with ${1:object} do",
-      "begin",
-      "  ${2:// Code}",
-      "end;"
-    ],
-    "description": "With statement"
-  },
-  "Interface": {
-    "prefix": "interface",
-    "body": [
-      "${1:IMyInterface} = interface",
-      "  ['{${2:GUID}}']",
-      "  ${3:// Interface methods}",
-      "end;"
+      "type",
+      "  ${1:IInterface} = interface",
+      "    procedure ${2:Method1};",
+      "    function ${3:Method2}: Type;",
+      "  end;"
     ],
     "description": "Interface declaration"
-  },
-  "Enum Type": {
-    "prefix": "enum",
-    "body": [
-      "${1:TMyEnum} = (${2:value1}, ${3:value2}, ${4:value3});"
-    ],
-    "description": "Enumeration type"
-  },
-  "Set Type": {
-    "prefix": "set",
-    "body": [
-      "${1:TMySet} = set of ${2:TMyEnum};"
-    ],
-    "description": "Set type declaration"
-  },
-  "Var Declaration": {
-    "prefix": "var",
-    "body": [
-      "var",
-      "  ${1:name}: ${2:type};"
-    ],
-    "description": "Variable declaration"
-  },
-  "Const Declaration": {
-    "prefix": "const",
-    "body": [
-      "const",
-      "  ${1:name} = ${2:value};"
-    ],
-    "description": "Constant declaration"
   },
   "Generic Class": {
     "prefix": "genclass",
     "body": [
-      "${1:TMyGeneric}<${2:T}> = class(${3:TObject})",
-      "private",
-      "  ${4:// Members}",
-      "public",
-      "  ${5:// Methods}",
-      "end;"
+      "generic type",
+      "  ${1:TGenericClass<T>} = class",
+      "  private",
+      "    $$   {2:FItem}: specialize T   $${3:};",
+      "  public",
+      "    procedure Add(AItem: T);",
+      "  end;"
     ],
-    "description": "Generic class declaration"
+    "description": "Generic class template"
   },
-  "Generic Function": {
-    "prefix": "genfunc",
+  "Generic Procedure": {
+    "prefix": "genproc",
     "body": [
-      "generic function ${1:GenericFunc}<${2:T}>(param: ${3:T}): ${4:T};",
+      "generic procedure ${1:GenericProc<T>}(AParam: specialize T);",
       "begin",
-      "  ${5:// Generic implementation}",
+      "  ${0}",
       "end;"
     ],
-    "description": "Generic function (professional addition)"
+    "description": "Generic procedure"
   },
-  "Try-Except Block": {
-    "prefix": "tryexcept",
+  "Constructor Override": {
+    "prefix": "consover",
     "body": [
-      "try",
-      "  ${1:// Code}",
-      "except",
-      "  on E: Exception do",
-      "    writeln('Error: ', E.Message);",
+      "constructor Create${1:(AParam: Type)}; override;",
+      "begin",
+      "  inherited;",
+      "  ${0}",
       "end;"
     ],
-    "description": "Try-except error handling (professional)"
+    "description": "Constructor override"
   },
-  "IfDef Directive": {
-    "prefix": "ifdef",
+  "Destructor": {
+    "prefix": "destr",
     "body": [
-      "{$IFDEF ${1:Condition}}",
-      "  ${2:// Code}",
-      "{$ELSE}",
-      "  ${3:// Alternative}",
-      "{$ENDIF}"
+      "destructor Destroy; override;",
+      "begin",
+      "  ${0}",
+      "  inherited;",
+      "end;"
     ],
-    "description": "Conditional compilation directive"
+    "description": "Destructor with inherited"
+  },
+  "Property Declaration": {
+    "prefix": "prop",
+    "body": "property ${1:Name}: ${2:Type} read ${3:Get} write ${4:Set};",
+    "description": "Property with read/write"
+  },
+  "Array Declaration": {
+    "prefix": "array",
+    "body": "array [$$   {1:low}..   $${2:high}] of ${3:Type};",
+    "description": "Array type"
+  },
+  "Set Declaration": {
+    "prefix": "set",
+    "body": "set of ${1:Type};",
+    "description": "Set type"
+  },
+  "Enum Declaration": {
+    "prefix": "enum",
+    "body": [
+      "type",
+      "  ${1:TEnum} = (",
+      "    ${2:value1},",
+      "    ${3:value2}",
+      "  );"
+    ],
+    "description": "Enumeration type"
+  },
+  "Thread Declaration": {
+    "prefix": "thread",
+    "body": [
+      "type",
+      "  ${1:TMyThread} = class(TThread)",
+      "  protected",
+      "    procedure Execute; override;",
+      "  end;",
+      "",
+      "procedure TMyThread.Execute;",
+      "begin",
+      "  ${0}",
+      "end;"
+    ],
+    "description": "Thread class (for multithreading)"
+  },
+  "Exception Handler": {
+    "prefix": "exhand",
+    "body": "on ${1:E}: ${2:Exception} do ${0:writeln(E.Message);};",
+    "description": "Exception handler"
+  },
+  "Inline Variable": {
+    "prefix": "inlinevar",
+    "body": "var ${1:varName}: ${2:Type} := ${0:value};",
+    "description": "Inline variable declaration (FPC)"
+  },
+  "Attribute": {
+    "prefix": "attr",
+    "body": "[${1:attribute}]",
+    "description": "Method/property attribute"
+  },
+  "Uses Clause": {
+    "prefix": "uses",
+    "body": "uses ${0:Unit1, Unit2};",
+    "description": "Uses clause"
+  },
+  "Var Section": {
+    "prefix": "varsec",
+    "body": [
+      "var",
+      "  ${1:var1}: ${2:Type};",
+      "  ${0:var2}: Type;"
+    ],
+    "description": "Var section"
+  },
+  "Const Section": {
+    "prefix": "constsec",
+    "body": [
+      "const",
+      "  ${1:CName} = ${2:value};",
+      "  ${0:CName2 = value;}"
+    ],
+    "description": "Const section"
+  },
+  "Type Section": {
+    "prefix": "typese",
+    "body": [
+      "type",
+      "  ${1:TType} = ${2:Type};",
+      "  ${0:TType2 = Type;}"
+    ],
+    "description": "Type section"
+  },
+  "Initialization": {
+    "prefix": "init",
+    "body": [
+      "initialization",
+      "  ${1:// init code}",
+      "finalization",
+      "  ${0:// cleanup code}"
+    ],
+    "description": "Unit initialization/finalization"
+  },
+  "Resource String": {
+    "prefix": "resstr",
+    "body": "resourcestring S$$   {1:Name} = '   $${0:value}';",
+    "description": "Localizable string"
+  },
+  "For-In Loop": {
+    "prefix": "forin",
+    "body": [
+      "for ${1:item} in ${2:collection} do",
+      "begin",
+      "  ${0}",
+      "end;"
+    ],
+    "description": "For-in loop (FPC/Delphi)"
+  },
+  "Exit": {
+    "prefix": "exit",
+    "body": "Exit;",
+    "description": "Early exit from procedure/function"
+  },
+  "Inherited": {
+    "prefix": "inherited",
+    "body": "inherited ${0:MethodName};",
+    "description": "Call parent method"
+  },
+  "Class Function": {
+    "prefix": "classfunc",
+    "body": [
+      "class function $$   {1:TMyClass}.   $${2:ClassFunc}(params): ${3:Type}; static;",
+      "begin",
+      "  Result := ${0:value};",
+      "end;"
+    ],
+    "description": "Static class function"
+  },
+  "Class Procedure": {
+    "prefix": "classproc",
+    "body": [
+      "class procedure $$   {1:TMyClass}.   $${2:ClassProc}(params); static;",
+      "begin",
+      "  ${0}",
+      "end;"
+    ],
+    "description": "Static class procedure"
+  },
+  "Abstract Method": {
+    "prefix": "abstract",
+    "body": "procedure ${1:Method}(params); virtual; abstract;",
+    "description": "Abstract virtual method"
+  },
+  "Virtual Method": {
+    "prefix": "virtual",
+    "body": "procedure ${1:Method}(params); virtual;",
+    "description": "Virtual method"
+  },
+  "Override Method": {
+    "prefix": "override",
+    "body": "procedure ${1:Method}(params); override;",
+    "description": "Override method"
+  },
+  "Event Type": {
+    "prefix": "event",
+    "body": "type $$   {1:TMyEvent} = procedure(   $${2:sender: TObject}) of object;",
+    "description": "Event type declaration"
+  },
+  "Published Section": {
+    "prefix": "published",
+    "body": [
+      "published",
+      "  property ${1:Name}: ${2:Type} read ${3:Get} write ${4:Set};",
+      "  procedure ${5:EventHandler}(Sender: TObject);",
+      "end;"
+    ],
+    "description": "Published section for streaming"
+  },
+  "Unit Test": {
+    "prefix": "test",
+    "body": [
+      "procedure Test${1:Case};",
+      "begin",
+      "  // Arrange",
+      "  ${2}",
+      "  // Act",
+      "  ${3}",
+      "  // Assert",
+      "  Assert(${4:condition});",
+      "end;"
+    ],
+    "description": "Basic unit test (FPCUnit/DUnit)"
+  },
+  "Benchmark": {
+    "prefix": "bench",
+    "body": [
+      "var",
+      "  StartTime: TDateTime;",
+      "begin",
+      "  StartTime := Now;",
+      "  ${1:// code to benchmark}",
+      "  writeln('Time: ', (Now - StartTime) * 86400:0:3, ' seconds');"
+    ],
+    "description": "Simple timing benchmark"
+  },
+  "JSON Structure": {
+    "prefix": "json",
+    "body": [
+      "type",
+      "  TJsonObject = record",
+      "    Key: String;",
+      "    Value: Variant;",
+      "  end;",
+      "var",
+      "  Json: TJsonArray = nil;"
+    ],
+    "description": "JSON-like record (fpjson)"
+  },
+  "VCL Form": {
+    "prefix": "vclform",
+    "body": [
+      "unit ${1:Unit1};",
+      "interface",
+      "uses",
+      "  Classes, SysUtils, Forms, Controls, StdCtrls;",
+      "type",
+      "  TForm1 = class(TForm)",
+      "    Button1: TButton;",
+      "    Label1: TLabel;",
+      "    procedure Button1Click(Sender: TObject);",
+      "  private",
+      "    { Private declarations }",
+      "  public",
+      "    { Public declarations }",
+      "  end;",
+      "var",
+      "  Form1: TForm1;",
+      "implementation",
+      "{$R *.dfm}",
+      "end."
+    ],
+    "description": "VCL Form unit (Delphi/Lazarus)"
+  },
+  "Lazarus Component": {
+    "prefix": "lazcomp",
+    "body": [
+      "unit ${1:MyComponent};",
+      "interface",
+      "uses",
+      "  Classes, SysUtils, LCLIntf, LResources, Forms, Controls, Graphics, Dialogs;",
+      "type",
+      "  TMyComponent = class(TComponent)",
+      "  private",
+      "    { Private declarations }",
+      "  public",
+      "    { Public declarations }",
+      "  published",
+      "    { Published declarations }",
+      "  end;",
+      "procedure Register;",
+      "implementation",
+      "initialization",
+      "  RegisterComponents('MyComponents', [TMyComponent]);",
+      "end."
+    ],
+    "description": "Lazarus component template"
+  },
+  "Mutex Lock": {
+    "prefix": "mutex",
+    "body": [
+      "uses",
+      "  SyncObjs;",
+      "var",
+      "  Mutex: TMutex;",
+      "begin",
+      "  Mutex := TMutex.Create;",
+      "  try",
+      "    if Mutex.WaitFor(1000) = wrSignaled then",
+      "    begin",
+      "      ${0:// critical section}",
+      "      Mutex.Release;",
+      "    end;",
+      "  finally",
+      "    Mutex.Free;",
+      "  end;",
+      "end;"
+    ],
+    "description": "Mutex for thread safety"
+  },
+  "Dynamic Array": {
+    "prefix": "darray",
+    "body": [
+      "var",
+      "  Arr: array of ${1:Type};",
+      "begin",
+      "  SetLength(Arr, ${2:10});",
+      "  Arr[0] := ${0:value};"
+    ],
+    "description": "Dynamic array initialization"
   }
 }

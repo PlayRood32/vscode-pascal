@@ -1,8 +1,8 @@
 {
-  "name": "pascal",
+  "name": "pascal-complete-pro",
   "displayName": "Pascal Complete",
-  "description": "Full Pascal support with real-time diagnostics, syntax highlighting, and library indexing",
-  "version": "1.0.2",
+  "description": "Professional Pascal IDE: AI-like intelligence, real-time diagnostics, smart completion, advanced refactoring, LSP integration",
+  "version": "3.0.0",
   "publisher": "PlayRood32",
   "author": {
     "name": "PlayRood32"
@@ -14,23 +14,30 @@
     "theme": "dark"
   },
   "engines": {
-    "vscode": "^1.60.0"
+    "vscode": "^1.85.0"
   },
   "categories": [
     "Programming Languages",
-    "Snippets"
+    "Snippets",
+    "Linters",
+    "Formatters",
+    "Debuggers"
   ],
   "keywords": [
     "pascal",
     "delphi",
-    "object pascal",
-    "turbo pascal",
     "free pascal",
     "lazarus",
-    "syntax",
-    "highlighting",
     "fpc",
-    "snippets"
+    "object pascal",
+    "turbo pascal",
+    "syntax highlighting",
+    "intellisense",
+    "diagnostics",
+    "code completion",
+    "refactoring",
+    "code actions",
+    "smart editing"
   ],
   "repository": {
     "type": "git",
@@ -45,17 +52,6 @@
   ],
   "main": "./out/extension.js",
   "contributes": {
-    "icons": {
-      "pascal": {
-        "id": "pascal",
-        "description": "Pascal File Icon",
-        "default": {
-          "light": "./images/icon.svg",
-          "dark": "./images/icon.svg"
-        },
-        "priority": "builtin"
-      }
-    },
     "languages": [
       {
         "id": "pascal",
@@ -63,7 +59,8 @@
           "Pascal",
           "pascal",
           "Delphi",
-          "Object Pascal"
+          "Object Pascal",
+          "Free Pascal"
         ],
         "extensions": [
           ".pas",
@@ -75,7 +72,10 @@
           ".lpk",
           ".inc",
           ".dproj",
-          ".lpi"
+          ".lpi",
+          ".dfm",
+          ".lfm",
+          ".fmx"
         ],
         "configuration": "./language-configuration.json",
         "icon": {
@@ -100,86 +100,217 @@
     "commands": [
       {
         "command": "pascal.compile",
-        "title": "Pascal: Compile Current File"
+        "title": "Pascal: Compile Current File",
+        "icon": "$(play)"
       },
       {
         "command": "pascal.run",
-        "title": "Pascal: Run Compiled File"
+        "title": "Pascal: Run Compiled File",
+        "icon": "$(run)"
+      },
+      {
+        "command": "pascal.compileAndRun",
+        "title": "Pascal: Compile and Run",
+        "icon": "$(debug-start)"
+      },
+      {
+        "command": "pascal.cleanBuild",
+        "title": "Pascal: Clean Build Files",
+        "icon": "$(trash)"
+      },
+      {
+        "command": "pascal.formatDocument",
+        "title": "Pascal: Format Document",
+        "icon": "$(edit)"
+      },
+      {
+        "command": "pascal.showStatus",
+        "title": "Pascal: Show Extension Status",
+        "icon": "$(info)"
+      },
+      {
+        "command": "pascal.analyzeFile",
+        "title": "Pascal: Analyze Current File",
+        "icon": "$(search)"
+      },
+      {
+        "command": "pascal.showSymbols",
+        "title": "Pascal: Show All Symbols",
+        "icon": "$(symbol-class)"
+      },
+      {
+        "command": "pascal.refreshSymbols",
+        "title": "Pascal: Refresh Symbol Cache",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "pascal.openDocs",
+        "title": "Pascal: Open Documentation",
+        "icon": "$(book)"
+      },
+      {
+        "command": "pascal.checkSyntax",
+        "title": "Pascal: Check Syntax",
+        "icon": "$(check)"
+      }
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "when": "resourceLangId == pascal",
+          "command": "pascal.compileAndRun",
+          "group": "navigation@1"
+        },
+        {
+          "when": "resourceLangId == pascal",
+          "command": "pascal.formatDocument",
+          "group": "navigation@2"
+        }
+      ],
+      "editor/context": [
+        {
+          "when": "resourceLangId == pascal",
+          "command": "pascal.compile",
+          "group": "pascal@1"
+        },
+        {
+          "when": "resourceLangId == pascal",
+          "command": "pascal.run",
+          "group": "pascal@2"
+        },
+        {
+          "when": "resourceLangId == pascal",
+          "command": "pascal.analyzeFile",
+          "group": "pascal@3"
+        },
+        {
+          "when": "resourceLangId == pascal",
+          "command": "pascal.cleanBuild",
+          "group": "pascal@4"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "pascal.compile",
+          "when": "resourceLangId == pascal"
+        },
+        {
+          "command": "pascal.run",
+          "when": "resourceLangId == pascal"
+        },
+        {
+          "command": "pascal.compileAndRun",
+          "when": "resourceLangId == pascal"
+        },
+        {
+          "command": "pascal.formatDocument",
+          "when": "resourceLangId == pascal"
+        },
+        {
+          "command": "pascal.analyzeFile",
+          "when": "resourceLangId == pascal"
+        },
+        {
+          "command": "pascal.checkSyntax",
+          "when": "resourceLangId == pascal"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "pascal.compile",
+        "key": "ctrl+shift+b",
+        "mac": "cmd+shift+b",
+        "when": "editorTextFocus && resourceLangId == pascal"
+      },
+      {
+        "command": "pascal.compileAndRun",
+        "key": "ctrl+shift+r",
+        "mac": "cmd+shift+r",
+        "when": "editorTextFocus && resourceLangId == pascal"
+      },
+      {
+        "command": "pascal.run",
+        "key": "ctrl+r",
+        "mac": "cmd+r",
+        "when": "editorTextFocus && resourceLangId == pascal"
+      },
+      {
+        "command": "pascal.cleanBuild",
+        "key": "ctrl+shift+c",
+        "mac": "cmd+shift+c",
+        "when": "editorTextFocus && resourceLangId == pascal"
+      },
+      {
+        "command": "pascal.formatDocument",
+        "key": "ctrl+shift+f",
+        "mac": "cmd+shift+f",
+        "when": "editorTextFocus && resourceLangId == pascal"
+      },
+      {
+        "command": "pascal.analyzeFile",
+        "key": "ctrl+shift+a",
+        "mac": "cmd+shift+a",
+        "when": "editorTextFocus && resourceLangId == pascal"
       }
     ],
     "configuration": {
-      "type": "object",
       "title": "Pascal Complete",
       "properties": {
         "pascal.compilerPath": {
           "type": "string",
           "default": "fpc",
-          "description": "Path to the Free Pascal Compiler (fpc). Leave as 'fpc' if it's in your system PATH.",
-          "scope": "machine-overridable"
-        },
-        "pascal.compilerOptions": {
-          "type": "array",
-          "default": [],
-          "description": "Additional compiler options to pass to FPC (e.g., ['-O3', '-gl'])",
-          "items": {
-            "type": "string"
-          },
-          "scope": "resource"
-        },
-        "pascal.outputPath": {
-          "type": "string",
-          "default": "",
-          "description": "Output directory for compiled executables. Leave empty to use the same directory as source file.",
+          "description": "Path to Free Pascal Compiler (fpc or full path)",
           "scope": "resource"
         },
         "pascal.compilerMode": {
           "type": "string",
-          "enum": [
-            "FPC",
-            "Delphi",
-            "TP",
-            "MacPas",
-            "ISO"
-          ],
           "default": "FPC",
-          "description": "Compiler compatibility mode",
+          "enum": ["FPC", "Delphi", "TP", "MacPas", "ISO"],
           "enumDescriptions": [
             "Free Pascal mode (default)",
             "Delphi compatibility mode",
-            "Turbo Pascal compatibility mode",
+            "Turbo Pascal mode",
             "Mac Pascal mode",
             "ISO Pascal mode"
           ],
+          "description": "Compiler compatibility mode",
           "scope": "resource"
         },
-        "pascal.syntaxCheckOnSave": {
-          "type": "boolean",
-          "default": true,
-          "description": "Check syntax when saving file (requires FPC installed)",
+        "pascal.compilerOptions": {
+          "type": "array",
+          "default": [],
+          "description": "Additional compiler flags (e.g., [\"-O2\", \"-g\"])",
           "scope": "resource"
         },
         "pascal.syntaxCheckOnChange": {
           "type": "boolean",
           "default": true,
-          "description": "Real-time syntax check on typing (debounced, requires FPC)",
+          "description": "Enable real-time syntax checking while typing (debounced)",
+          "scope": "resource"
+        },
+        "pascal.syntaxCheckOnSave": {
+          "type": "boolean",
+          "default": true,
+          "description": "Check syntax when saving file",
           "scope": "resource"
         },
         "pascal.showWarnings": {
           "type": "boolean",
           "default": true,
-          "description": "Show compiler warnings in Problems panel (yellow underline)",
+          "description": "Show compiler warnings in Problems panel",
           "scope": "resource"
         },
         "pascal.showHints": {
           "type": "boolean",
           "default": false,
-          "description": "Show compiler hints in Problems panel",
+          "description": "Show compiler hints and notes",
           "scope": "resource"
         },
         "pascal.formatOnSave": {
           "type": "boolean",
           "default": false,
-          "description": "Format document when saving",
+          "description": "Automatically format code on save",
           "scope": "resource"
         },
         "pascal.indentSize": {
@@ -196,32 +327,57 @@
           "description": "Use spaces instead of tabs for indentation",
           "scope": "resource"
         },
-        "pascal.exeExt": {
-          "type": "string",
-          "default": ".exe",
-          "description": "Executable extension (auto-detected for Windows)",
+        "pascal.autoSemicolon": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically insert semicolons (context-aware)",
+          "scope": "resource"
+        },
+        "pascal.autoCloseBrackets": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically close brackets and blocks",
+          "scope": "resource"
+        },
+        "pascal.enableCodeLens": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show CodeLens for procedures and functions",
+          "scope": "resource"
+        },
+        "pascal.enableHoverDocs": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show documentation on hover",
+          "scope": "resource"
+        },
+        "pascal.enableSignatureHelp": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show parameter hints for functions",
+          "scope": "resource"
+        },
+        "pascal.lspEnabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable Language Server Protocol (requires pasls)",
+          "scope": "resource"
+        },
+        "pascal.debugMode": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable verbose debug logging",
           "scope": "resource"
         }
       }
-    },
-    "taskDefinitions": [
-      {
-        "type": "pascal",
-        "required": [
-          "command"
-        ],
-        "properties": {
-          "command": {
-            "type": "string"
-          }
-        }
-      }
-    ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile",
+    "lint": "eslint src --ext ts",
     "package": "vsce package",
     "publish": "vsce publish"
   },
@@ -229,8 +385,12 @@
     "vscode-languageclient": "^9.0.1"
   },
   "devDependencies": {
-    "@types/vscode": "^1.60.0",
-    "@types/node": "^24.10.1",
-    "typescript": "^5.0.0"
+    "@types/vscode": "^1.85.0",
+    "@types/node": "^20.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.0.0",
+    "typescript": "^5.0.0",
+    "@vscode/vsce": "^2.22.0"
   }
 }

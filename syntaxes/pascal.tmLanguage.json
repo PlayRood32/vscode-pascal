@@ -2,27 +2,102 @@
   "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
   "name": "Pascal",
   "scopeName": "source.pascal",
-  "fileTypes": ["pas", "p", "pp", "dfm", "fmx", "dpr", "dpk", "lfm", "lpr"],
+  "fileTypes": [
+    "pas",
+    "p",
+    "pp",
+    "dfm",
+    "fmx",
+    "dpr",
+    "dpk",
+    "lfm",
+    "lpr",
+    "inc",
+    "lrs"
+  ],
   "patterns": [
-    { "include": "#keywords" },
-    { "include": "#strings" },
     { "include": "#comments" },
-    { "include": "#numbers" },
-    { "include": "#operators" },
-    { "include": "#functions" },
-    { "include": "#types" },
-    { "include": "#variables" },
-    { "include": "#constants" },
+    { "include": "#strings" },
     { "include": "#directives" },
     { "include": "#attributes" },
-    { "include": "#generics" }
+    { "include": "#io-functions" },
+    { "include": "#builtin-functions" },
+    { "include": "#standard-functions" },
+    { "include": "#math-functions" },
+    { "include": "#string-functions" },
+    { "include": "#conversion-functions" },
+    { "include": "#datetime-functions" },
+    { "include": "#file-functions" },
+    { "include": "#memory-functions" },
+    { "include": "#system-functions" },
+    { "include": "#variant-functions" },
+    { "include": "#thread-functions" },
+    { "include": "#rtl-functions" },
+    { "include": "#vcl-classes" },
+    { "include": "#fmx-classes" },
+    { "include": "#lcl-classes" },
+    { "include": "#standard-classes" },
+    { "include": "#collection-classes" },
+    { "include": "#stream-classes" },
+    { "include": "#exception-classes" },
+    { "include": "#database-classes" },
+    { "include": "#xml-classes" },
+    { "include": "#json-classes" },
+    { "include": "#network-classes" },
+    { "include": "#graphics-classes" },
+    { "include": "#keywords" },
+    { "include": "#numbers" },
+    { "include": "#operators" },
+    { "include": "#types" },
+    { "include": "#pointer-types" },
+    { "include": "#system-types" },
+    { "include": "#constants" },
+    { "include": "#generics" },
+    { "include": "#function-declarations" },
+    { "include": "#class-declarations" },
+    { "include": "#interface-declarations" },
+    { "include": "#record-declarations" },
+    { "include": "#variables" },
+    { "include": "#units" }
   ],
   "repository": {
-    "keywords": {
+    "comments": {
       "patterns": [
         {
-          "name": "keyword.control.pascal",
-          "match": "\\b(?i:(absolute|abstract|and_then|array|as|asm|attribute|begin|case|class|const|default|div|else|end|except|export|external|file|finalization|finally|for|forward|generic|goto|if|implements|in|inherited|initialization|interface|is|label|library|mod|not|object|of|on|operator|or_else|out|override|packed|private|program|protected|public|published|qualified|read|record|resourcestring|set|shl|shr|then|threadvar|to|try|type|unit|uses|var|virtual|while|with|write|xor|repeat|until|raise|do|downto|break|continue|exit))\\b"
+          "name": "comment.block.pascal",
+          "begin": "\\{",
+          "end": "\\}",
+          "patterns": [
+            {
+              "name": "comment.block.todo.pascal",
+              "match": "\\b(TODO|FIXME|NOTE|HACK|BUG|XXX|REFACTOR|OPTIMIZE|REVIEW|IDEA|CHANGED|DEPRECATED)\\b"
+            }
+          ]
+        },
+        {
+          "name": "comment.block.pascal",
+          "begin": "\\(\\*",
+          "end": "\\*\\)",
+          "patterns": [
+            {
+              "name": "comment.block.todo.pascal",
+              "match": "\\b(TODO|FIXME|NOTE|HACK|BUG|XXX|REFACTOR|OPTIMIZE|REVIEW|IDEA|CHANGED|DEPRECATED)\\b"
+            }
+          ]
+        },
+        {
+          "name": "comment.line.double-slash.pascal",
+          "match": "//.*$",
+          "captures": {
+            "0": {
+              "patterns": [
+                {
+                  "name": "comment.line.todo.pascal",
+                  "match": "\\b(TODO|FIXME|NOTE|HACK|BUG|XXX|REFACTOR|OPTIMIZE|REVIEW|IDEA|CHANGED|DEPRECATED):?\\s*"
+                }
+              ]
+            }
+          }
         }
       ]
     },
@@ -33,92 +108,80 @@
           "begin": "'",
           "end": "'",
           "patterns": [
-            { "match": "[^']+", "name": "string.content" },
-            { "match": "''", "name": "constant.character.escape.pascal" }
+            {
+              "name": "constant.character.escape.pascal",
+              "match": "''|#\\d+|#\\$[0-9A-Fa-f]+"
+            }
           ]
-        }
-      ]
-    },
-    "comments": {
-      "patterns": [
-        {
-          "name": "comment.line.double-slash.pascal",
-          "match": "//.*$"
         },
         {
-          "name": "comment.block.braces.pascal",
-          "begin": "\\{",
-          "end": "\\}"
+          "name": "string.quoted.double.pascal",
+          "begin": "\"",
+          "end": "\"",
+          "patterns": [
+            {
+              "name": "constant.character.escape.pascal",
+              "match": "\"\"|#\\d+|#\\$[0-9A-Fa-f]+"
+            }
+          ]
         },
         {
-          "name": "comment.block.parentheses.pascal",
-          "begin": "\\(\\*",
-          "end": "\\*\\)"
-        }
-      ]
-    },
-    "numbers": {
-      "patterns": [
-        { "name": "constant.numeric.hex.pascal", "match": "\\$[0-9A-Fa-f]+" },
-        { "name": "constant.numeric.binary.pascal", "match": "\\b%[01]+\\b" },
-        { "name": "constant.numeric.float.pascal", "match": "\\b\\d+\\.\\d+([eE][+-]?\\d+)?\\b" },
-        { "name": "constant.numeric.integer.pascal", "match": "\\b\\d+\\b" }
-      ]
-    },
-    "operators": {
-      "patterns": [
-        {
-          "name": "keyword.operator.pascal",
-          "match": "(\\+|\\-|\\*|\\/|:=|=|<>|<|>|<=|>=|\\.\\.|\\.)"
-        },
-        {
-          "name": "keyword.operator.pointer.pascal",
-          "match": "(@|\\^)"
-        }
-      ]
-    },
-    "functions": {
-      "patterns": [
-        {
-          "name": "entity.name.function.pascal",
-          "match": "\\b(?i:(write|writeln|Write|WriteLn|read|readln|Read|ReadLn|str|val|inc|dec|new|dispose|ord|chr|length|setlength|copy|pos|delete|insert|upcase|lowcase|trim|format|inttostr|strtoint|floattostr|strtofloat|datetostr|strtodate|now|random|randomize|sqrt|sin|cos|tan|abs|round|trunc|assert|halt|exit|break|continue))\\b"
-        }
-      ]
-    },
-    "types": {
-      "patterns": [
-        {
-          "name": "storage.type.pascal",
-          "match": "\\b(?i:(ansichar|ansistring|boolean|byte|cardinal|char|comp|currency|double|integer|int64|longint|nativeint|real|shortint|single|smallint|string|uint64|variant|widechar|word|array|set|record|class|object|interface|pointer))\\b"
-        }
-      ]
-    },
-    "variables": {
-      "patterns": [
-        {
-          "name": "variable.other.pascal",
-          "match": "\\b([A-Za-z_][A-Za-z0-9_]*)\\b"
-        }
-      ]
-    },
-    "constants": {
-      "patterns": [
-        {
-          "name": "constant.language.pascal",
-          "match": "\\b(?i:(nil|true|false|MaxInt|MaxLongint))\\b"
+          "name": "string.other.char.pascal",
+          "match": "#\\d+|#\\$[0-9A-Fa-f]+"
         }
       ]
     },
     "directives": {
       "patterns": [
-        { "name": "meta.preprocessor.pascal", "match": "\\{\\$[^}]+\\}" },
         {
-          "name": "meta.preprocessor.ifdef.pascal",
-          "begin": "\\{\\$IFDEF\\b",
-          "end": "\\{\\$ENDIF\\b",
+          "name": "meta.preprocessor.pascal",
+          "begin": "\\{\\$",
+          "end": "\\}",
           "patterns": [
-            { "name": "meta.preprocessor.else.pascal", "match": "\\{\\$ELSE\\b" },
-            { "name": "meta.preprocessor.elseif.pascal", "match": "\\{\\$ELSEIF\\b" }
+            {
+              "name": "keyword.control.directive.conditional.pascal",
+              "match": "\\b(IFDEF|IFNDEF|IFOPT|ELSE|ELSEIF|ENDIF|DEFINE|UNDEF|IF|IFEND)\\b"
+            },
+            {
+              "name": "keyword.control.directive.include.pascal",
+              "match": "\\b(INCLUDE|I|RESOURCE|R)\\b"
+            },
+            {
+              "name": "keyword.control.directive.mode.pascal",
+              "match": "\\b(MODE|MODESWITCH|MACRO|CALLING|OBJECTCHECKS|POINTERMATH)\\b"
+            },
+            {
+              "name": "keyword.control.directive.optimization.pascal",
+              "match": "\\b(OPTIMIZATION|O|INLINE|SMARTLINK|CODEPAGE|COPERATORS)\\b"
+            },
+            {
+              "name": "keyword.control.directive.debug.pascal",
+              "match": "\\b(ASSERTIONS|C|DEBUGINFO|D|LOCALSYMBOLS|L|REFERENCEINFO|Y)\\b"
+            },
+            {
+              "name": "keyword.control.directive.checking.pascal",
+              "match": "\\b(RANGECHECKS|R|IOCHECKS|I|OVERFLOWCHECKS|Q|TYPEDADDRESS|T|BOOLEVAL|B|SAFEDIVIDE|VARSTRINGCHECKS|V|WRITEABLECONST|J|STACKFRAMES|W)\\b"
+            },
+            {
+              "name": "keyword.control.directive.syntax.pascal",
+              "match": "\\b(LONGSTRINGS|H|OPENSTRINGS|P|EXTENDEDSYNTAX|X|SCOPEDENUMS|TYPEINFO|M|RTTI)\\b"
+            },
+            {
+              "name": "keyword.control.directive.alignment.pascal",
+              "match": "\\b(ALIGN|A|PACKENUM|Z|PACKRECORDS|PACKSET)\\b"
+            },
+            {
+              "name": "keyword.control.directive.warning.pascal",
+              "match": "\\b(HINTS|WARNINGS|WARN|MESSAGE|HINT|ERROR|FATAL|INFO|NOTE)\\b"
+            },
+            {
+              "name": "keyword.control.directive.linking.pascal",
+              "match": "\\b(LINK|LINKLIB|L|STATIC|DYNAMIC|WEAKLINKRTTI|SETPEFLAGS|SETPEOPTFLAGS)\\b"
+            },
+            {
+              "name": "keyword.control.directive.other.pascal",
+              "match": "\\b(APPTYPE|DESCRIPTION|EXTENSION|LIBPREFIX|LIBSUFFIX|LIBVERSION|MAINPROGRAMHANDLE|MINSTACKSIZE|MAXSTACKSIZE|IMAGEBASE|REGION|ENDREGION|LEGACYIFEND|GOTO|IMPLICITEXCEPTIONS|OLDTYPELAYOUT|INTERFACES)\\b"
+            }
           ]
         }
       ]
@@ -126,22 +189,394 @@
     "attributes": {
       "patterns": [
         {
-          "name": "storage.modifier.pascal",
-          "match": "\\[.*?\\]"
+          "name": "storage.modifier.attribute.pascal",
+          "begin": "\\[",
+          "end": "\\]",
+          "patterns": [
+            {
+              "include": "#strings"
+            },
+            {
+              "include": "#numbers"
+            }
+          ]
         }
       ]
     },
-    "generics": {
+    "io-functions": {
       "patterns": [
         {
-          "name": "storage.type.generic.pascal",
-          "match": "\\b[A-Za-z_][A-Za-z0-9_]*<[^>]+>\\b"
-        },
-        {
-          "name": "keyword.other.specialize.pascal",
-          "match": "\\bspecialize\\b"
+          "name": "support.function.io.pascal",
+          "match": "(?i)\\b(Write|WriteLn|Read|ReadLn|Assign|Reset|Rewrite|Close|Append|Flush|Eof|Eoln|SeekEof|SeekEoln|FilePos|FileSize|Seek|Erase|Rename|Truncate|BlockRead|BlockWrite|SetTextBuf|ChDir|GetDir|MkDir|RmDir)\\b"
         }
       ]
-    }
-  }
-}
+    },
+    "builtin-functions": {
+      "patterns": [
+        {
+          "name": "support.function.builtin.pascal",
+          "match": "(?i)\\b(Length|SetLength|Copy|Pos|Delete|Insert|Str|Val|Format|FillChar|Move|SizeOf|TypeOf|TypeInfo|GetTypeKind|High|Low|Pred|Succ|Inc|Dec|Odd|Swap|Assigned)\\b"
+        }
+      ]
+    },
+    "standard-functions": {
+      "patterns": [
+        {
+          "name": "support.function.standard.pascal",
+          "match": "(?i)\\b(Addr|Exclude|Include|Finalize|Initialize|SetString|UniqueString|Break|Continue|Exit|Halt|RunError|Assert|New|Dispose|GetMem|FreeMem|ReallocMem|AllocMem)\\b"
+        }
+      ]
+    },
+    "math-functions": {
+      "patterns": [
+        {
+          "name": "support.function.math.pascal",
+          "match": "(?i)\\b(Abs|ArcCos|ArcCosh|ArcCot|ArcCotH|ArcCsc|ArcCscH|ArcSec|ArcSecH|ArcSin|ArcSinh|ArcTan|ArcTan2|ArcTanh|Ceil|CompareValue|Cos|Cosh|Cot|Cotan|Csc|Cosecant|CycleToDeg|CycleToGrad|CycleToRad|DegToCycle|DegToGrad|DegToRad|DivMod|DoubleDecliningBalance|EnsureRange|Exp|Floor|Frexp|FutureValue|GetExceptionMask|GetPrecisionMode|GetRoundMode|GradToCycle|GradToDeg|GradToRad|Hypot|InRange|IntPower|Interest|InterestPayment|InterestRate|InternalRateOfReturn|IsInfinite|IsNan|IsZero|Ldexp|LnXP1|Log10|Log2|LogN|Max|MaxIntValue|MaxValue|Mean|MeanAndStdDev|Min|MinIntValue|MinValue|Momentskewness|Momentkurtosis|NetPresentValue|Norm|NumberOfPeriods|Payment|PeriodPayment|Pi|Poly|PopnStdDev|PopnVariance|Power|PresentValue|RadToCycle|RadToDeg|RadToGrad|RandG|RandomFrom|RandomRange|Round|RoundTo|SameValue|Sec|Secant|SetExceptionMask|SetPrecisionMode|SetRoundMode|Sign|Sin|Sincos|Sinh|SLNDepreciation|Sqrt|Sqr|StdDev|Sum|SumInt|SumOfSquares|SYDDepreciation|Tan|Tanh|TotalVariance|Trunc)\\b"
+        }
+      ]
+    },
+    "string-functions": {
+      "patterns": [
+        {
+          "name": "support.function.string.pascal",
+          "match": "(?i)\\b(AnsiCompareStr|AnsiCompareText|AnsiContainsStr|AnsiContainsText|AnsiEndsStr|AnsiEndsText|AnsiIndexStr|AnsiIndexText|AnsiLeftStr|AnsiLowerCase|AnsiMatchStr|AnsiMatchText|AnsiMidStr|AnsiPos|AnsiQuotedStr|AnsiReplaceStr|AnsiReplaceText|AnsiResemblesText|AnsiReverseString|AnsiRightStr|AnsiSameStr|AnsiSameText|AnsiStartsStr|AnsiStartsText|AnsiUpperCase|AppendStr|AssignStr|CompareStr|CompareText|Concat|Copy|DecodeString|DisposeStr|DupeString|EncodeString|Format|FormatBuf|FormatFloat|FmtLoadStr|FmtStr|HashName|InsertStr|IsDelimiter|IsValidIdent|LastDelimiter|LeftStr|LeftBStr|LoadStr|LowerCase|NewStr|PosEx|QuotedStr|ReverseString|RightStr|RightBStr|SoundexCompare|SoundexInt|SoundexProc|Soundex|SoundexSimilar|SoundexWord|StuffString|StringOfChar|StringReplace|StringToWideChar|Trim|TrimLeft|TrimRight|UpperCase|WideCharLenToString|WideCharLenToStrVar|WideCharToString|WideCharToStrVar|WrapText)\\b"
+        }
+      ]
+    },
+    "conversion-functions": {
+      "patterns": [
+        {
+          "name": "support.function.conversion.pascal",
+          "match": "(?i)\\b(BinToHex|BoolToStr|ByteToCharIndex|ByteToCharLen|ByteType|CharLength|CharToByteIndex|CharToByteLen|Chr|CurrToStr|CurrToStrF|FloatToStr|FloatToStrF|FloatToText|FloatToTextFmt|HexToBin|IntToHex|IntToStr|Int64ToStr|StrToBool|StrToBoolDef|StrToCurr|StrToCurrDef|StrToDate|StrToDateDef|StrToDateTime|StrToDateTimeDef|StrToFloat|StrToFloatDef|StrToInt|StrToIntDef|StrToInt64|StrToInt64Def|StrToTime|StrToTimeDef|StrTok|TryStrToBool|TryStrToCurr|TryStrToDate|TryStrToDateTime|TryStrToFloat|TryStrToInt|TryStrToInt64|TryStrToTime|UIntToStr|UCS4StringToWideString|UTF8Decode|UTF8Encode|VarToStr|VarToStrDef|WideCharToString|WideStringToUCS4String)\\b"
+        }
+      ]
+    },
+    "datetime-functions": {
+      "patterns": [
+        {
+          "name": "support.function.datetime.pascal",
+          "match": "(?i)\\b(Date|DateOf|DateTimeToFileDate|DateTimeToStr|DateTimeToString|DateTimeToSystemTime|DateTimeToTimeStamp|DateToStr|DayOf|DayOfTheMonth|DayOfTheWeek|DayOfTheYear|DayOfWeek|DaysBetween|DaysInAMonth|DaysInAYear|DaysInMonth|DaysInYear|DaySpan|DecodeDate|DecodeDateDay|DecodeDateFully|DecodeDateMonthWeek|DecodeDateWeek|DecodeDateTime|DecodeDateTimeGMT|DecodeDayOfWeekInMonth|DecodeTime|EncodeDate|EncodeDateDay|EncodeDateMonthWeek|EncodeDateWeek|EncodeDateTime|EncodeDateTimeGMT|EncodeDayOfWeekInMonth|EncodeTime|EndOfADay|EndOfAMonth|EndOfAWeek|EndOfAYear|EndOfTheDay|EndOfTheMonth|EndOfTheWeek|EndOfTheYear|FileDateToDateTime|FormatDateTime|HourOf|HourOfTheDay|HourOfTheMonth|HourOfTheWeek|HourOfTheYear|HoursBetween|HourSpan|IncDay|IncHour|IncMilliSecond|IncMinute|IncMonth|IncSecond|IncWeek|IncYear|IsInLeapYear|IsLeapYear|IsPM|IsSameDay|IsToday|IsValidDate|IsValidDateTime|IsValidDateDay|IsValidDateMonthWeek|IsValidDateWeek|IsValidTime|MilliSecondOf|MilliSecondOfTheDay|MilliSecondOfTheHour|MilliSecondOfTheMinute|MilliSecondOfTheMonth|MilliSecondOfTheSecond|MilliSecondOfTheWeek|MilliSecondOfTheYear|MilliSecondsBetween|MilliSecondSpan|MinuteOf|MinuteOfTheDay|MinuteOfTheHour|MinuteOfTheMonth|MinuteOfTheWeek|MinuteOfTheYear|MinutesBetween|MinuteSpan|MonthOf|MonthOfTheYear|MonthsBetween|MonthSpan|Now|RecodeDate|RecodeDateTime|RecodeDay|RecodeHour|RecodeMilliSecond|RecodeMinute|RecodeMonth|RecodeSecond|RecodeTime|RecodeYear|ReplaceDate|ReplaceTime|SecondOf|SecondOfTheDay|SecondOfTheHour|SecondOfTheMinute|SecondOfTheMonth|SecondOfTheWeek|SecondOfTheYear|SecondsBetween|SecondSpan|StartOfADay|StartOfAMonth|StartOfAWeek|StartOfAYear|StartOfTheDay|StartOfTheMonth|StartOfTheWeek|StartOfTheYear|SystemTimeToDateTime|Time|TimeOf|TimeStampToDateTime|TimeStampToMSecs|TimeToStr|Today|Tomorrow|TryEncodeDate|TryEncodeDateTime|TryEncodeTime|WeekOf|WeekOfTheMonth|WeekOfTheYear|WeeksBetween|WeekSpan|WithinPastDays|WithinPastHours|WithinPastMilliSeconds|WithinPastMinutes|WithinPastMonths|WithinPastSeconds|WithinPastWeeks|WithinPastYears|YearOf|YearsBetween|YearSpan|Yesterday)\\b"
+        }
+      ]
+    },
+    "file-functions": {
+      "patterns": [
+        {
+          "name": "support.function.file.pascal",
+          "match": "(?i)\\b(ChangeFileExt|CompareFileName|CreateDir|DeleteFile|DirectoryExists|DiskFree|DiskSize|ExpandFileName|ExpandFileNameCase|ExpandUNCFileName|ExtractFileDir|ExtractFileDrive|ExtractFileExt|ExtractFileName|ExtractFilePath|ExtractRelativePath|ExtractShortPathName|FileAge|FileClose|FileCreate|FileDateToDateTime|FileExists|FileGetAttr|FileGetDate|FileIsReadOnly|FileOpen|FileRead|FileSearch|FileSeek|FileSetAttr|FileSetDate|FileWrite|FindClose|FindCmdLineSwitch|FindFirst|FindNext|ForceDirectories|GetCurrentDir|GetEnvironmentVariable|GetFileVersion|IncludeTrailingBackslash|IncludeTrailingPathDelimiter|IsPathDelimiter|LastDelimiter|MatchesMask|RemoveDir|RenameFile|SafeLoadLibrary|SetCurrentDir|SysErrorMessage)\\b"
+        }
+      ]
+    },
+    "memory-functions": {
+      "patterns": [
+        {
+          "name": "support.function.memory.pascal",
+          "match": "(?i)\\b(AllocMem|CompareMem|Dispose|FreeMem|FreeMemory|GetHeapStatus|GetMemoryManager|GetMem|IsMemoryManagerSet|New|ReallocMem|RegisterExpectedMemoryLeak|SetMemoryManager|UnregisterExpectedMemoryLeak)\\b"
+        }
+      ]
+    },
+    "system-functions": {
+      "patterns": [
+        {
+          "name": "support.function.system.pascal",
+          "match": "(?i)\\b(Abort|AddModuleUnloadProc|Beep|CheckSynchronize|CreateGUID|DebugBreak|DecodeDate|DecodeTime|DiskFree|DiskSize|EncodeDate|EncodeTime|ExceptionErrorMessage|FindHInstance|FreeLibrary|GetEnvironmentVariable|GetLocaleFormatSettings|GetPackageDescription|GetPackageInfo|GetTime|GUIDToString|InitProc|IsLibrary|IsValidIdent|LoadLibrary|LoadPackage|ParamCount|ParamStr|RegisterModule|RemoveModuleUnloadProc|SafeLoadLibrary|SetErrorMode|SetPackageInfo|Sleep|StringToGUID|SupportsService|UnloadPackage|UnregisterModule|UnregisterModuleClasses)\\b"
+        }
+      ]
+    },
+    "variant-functions": {
+      "patterns": [
+        {
+          "name": "support.function.variant.pascal",
+          "match": "(?i)\\b(FindVarData|Null|Unassigned|VarArrayAsPSafeArray|VarArrayCreate|VarArrayDimCount|VarArrayGet|VarArrayHighBound|VarArrayLock|VarArrayLowBound|VarArrayOf|VarArrayPut|VarArrayRedim|VarArrayRef|VarArrayUnlock|VarAsError|VarAsType|VarCast|VarClear|VarCopy|VarFromDateTime|VarIsArray|VarIsByRef|VarIsClear|VarIsCustom|VarIsEmpty|VarIsEmptyParam|VarIsError|VarIsNull|VarIsOrdinal|VarIsStr|VarIsType|VarToDateTime|VarToStr|VarToStrDef|VarToWideStr|VarToWideStrDef|VarType|VarTypeAsText)\\b"
+        }
+      ]
+    },
+    "thread-functions": {
+      "patterns": [
+        {
+          "name": "support.function.thread.pascal",
+          "match": "(?i)\\b(BeginThread|BeginThreadEx|CheckSynchronize|EndThread|EndThreadEx|GetCurrentThreadId|ThreadSwitch|WaitForThreadTerminate|Sleep|TThread|TCriticalSection|TMultiReadExclusiveWriteSynchronizer|TSimpleRWSync|TSynchroObject|TEvent|TMutex|TSemaphore)\\b"
+        }
+      ]
+    },
+    "rtl-functions": {
+      "patterns": [
+        {
+          "name": "support.function.rtl.pascal",
+          "match": "(?i)\\b(AddExitProc|AddTerminateProc|AdjustLineBreaks|AnsiDequotedStr|AnsiFillBytes|AnsiLastChar|AnsiStrAlloc|AnsiStrBufSize|AnsiStrComp|AnsiStrDispose|AnsiStrIComp|AnsiStrLastChar|AnsiStrLComp|AnsiStrLIComp|AnsiStrLower|AnsiStrNew|AnsiStrPos|AnsiStrRScan|AnsiStrScan|AnsiStrUpper|AppendStr|AssignStr|BinToHex|ByteToCharIndex|ByteToCharLen|ByteType|CallTerminateProcs|ChangeFileExt|CharLength|CharToByteIndex|CharToByteLen|CompareMem|CompareStr|CompareText|ConvertErrorToException|CreateDir|CurrentYear|DateTimeToFileDate|DateTimeToStr|DateTimeToString|DateTimeToSystemTime|DateToStr|DayOfWeek|DeleteFile|DirectoryExists|DiskFree|DiskSize|DisposeStr|DupeString|EncodeDate|EncodeTime|ExcludeTrailingBackslash|ExcludeTrailingPathDelimiter|ExpandFileName|ExpandFileNameCase|ExpandUNCFileName|ExtractFileDir|ExtractFileDrive|ExtractFileExt|ExtractFileName|ExtractFilePath|ExtractRelativePath|ExtractShortPathName|FileAge|FileClose|FileCreate|FileDateToDateTime|FileExists|FileGetAttr|FileGetDate|FileIsReadOnly|FileOpen|FileRead|FileSearch|FileSeek|FileSetAttr|FileSetDate|FileWrite|FillChar|FindClose|FindCmdLineSwitch|FindFirst|FindNext|FloatToStr|FloatToStrF|FloatToText|FloatToTextFmt|FmtLoadStr|FmtStr|ForceDirectories|Format|FormatBuf|FormatCurr|FormatDateTime|FormatFloat|GetCurrentDir|GetEnvironmentVariable|GetFileVersion|GetLocaleChar|GetLocaleFormatSettings|GetModuleName|GUIDToString|HexToBin|IncludeTrailingBackslash|IncludeTrailingPathDelimiter|IncMonth|IntToHex|IntToStr|IsDelimiter|IsLeapYear|IsPathDelimiter|IsValidIdent|Languages|LastDelimiter|LoadStr|LowerCase|MatchesMask|NewStr|Now|QuotedStr|RemoveDir|RenameFile|ReplaceDate|ReplaceTime|SafeLoadLibrary|SetCurrentDir|ShowException|StrAlloc|StrBufSize|StrByteType|StrCat|StrCharLength|StrComp|StrCopy|StrDispose|StrECopy|StrEnd|StrFmt|StrIComp|StrLCat|StrLComp|StrLen|StrLFmt|StrLIComp|StrLower|StrMove|StrNew|StrNextChar|StrPas|StrPCopy|StrPLCopy|StrPos|StrRScan|StrScan|StrToBool|StrToBoolDef|StrToCurr|StrToCurrDef|StrToDate|StrToDateDef|StrToDateTime|StrToDateTimeDef|StrToFloat|StrToFloatDef|StrToInt|StrToInt64|StrToInt64Def|StrToIntDef|StrToTime|StrToTimeDef|StrUpper|StringReplace|StringToGUID|StringToWideChar|Supports|SysErrorMessage|SystemTimeToDateTime|Time|TimeToStr|Trim|TrimLeft|TrimRight|TryEncodeDate|TryEncodeTime|TryFloatToCurr|TryFloatToDateTime|TryStrToBool|TryStrToCurr|TryStrToDate|TryStrToDateTime|TryStrToFloat|TryStrToInt|TryStrToInt64|TryStrToTime|UpperCase|VarToStr|VarToStrDef|WideCharLenToString|WideCharLenToStrVar|WideCharToString|WideCharToStrVar|WrapText)\\b"
+        }
+      ]
+    },
+    "vcl-classes": {
+      "patterns": [
+        {
+          "name": "support.class.vcl.pascal",
+          "match": "(?i)\\b(TForm|TFrame|TDataModule|TApplication|TScreen|TMouse|TClipboard|TPrinter|TCanvas|TGraphic|TBitmap|TIcon|TMetafile|TPicture|TImage|TBevel|TButton|TCheckBox|TComboBox|TEdit|TLabel|TListBox|TMemo|TPanel|TRadioButton|TScrollBar|TGroupBox|TRadioGroup|TMainMenu|TPopupMenu|TMenuItem|TStatusBar|TToolBar|TToolButton|TPageControl|TTabSheet|TTreeView|TListView|TStringGrid|TDrawGrid|TProgressBar|TTrackBar|TUpDown|TDateTimePicker|TMonthCalendar|TRichEdit|THotKey|TAnimate|THeaderControl|TSpinEdit|TColorBox|TValueListEditor|TChart|TSeries|TOpenDialog|TSaveDialog|TFontDialog|TColorDialog|TPrintDialog|TFindDialog|TReplaceDialog|TTimer|TAction|TActionList|TImageList|TMediaPlayer|TComPort|TIdTCPServer|TIdTCPClient|TIdHTTP|TIdFTP|TIdSMTP|TIdPOP3|TServerSocket|TClientSocket|TWebBrowser|TXMLDocument|TADOConnection|TADOQuery|TADOTable|TADOCommand|TADODataSet|TDataSource|TDBGrid|TDBEdit|TDBText|TDBMemo|TDBImage|TDBListBox|TDBComboBox|TDBCheckBox|TDBRadioGroup|TDBNavigator|TDBLookupComboBox|TDBLookupListBox|TDBCtrlGrid|TClientDataSet|TDataSetProvider|TSQLConnection|TSQLQuery|TSQLTable|TSQLStoredProc|TSimpleDataSet|TStringList|TList|TObjectList|TCollection|TCollectionItem|TComponent|TPersistent|TThread|TCriticalSection|TEvent|TRegistry|TIniFile|TMemIniFile|TResourceStream|THandleStream|TFileStream|TStringStream|TMemoryStream|TBlobStream|TOleStream|TReader|TWriter|TParser|TBinaryReader|TBinaryWriter)\\b"
+        }
+      ]
+    },
+    "fmx-classes": {
+      "patterns": [
+        {
+          "name": "support.class.fmx.pascal",
+          "match": "(?i)\\b(TFMXObject|TControl|TStyledControl|TTextControl|TLayout|TScaledLayout|TGridLayout|TGridPanelLayout|TFlowLayout|TVertScrollBox|THorzScrollBox|TScrollBox|TFramedScrollBox|TFramedVertScrollBox|TLabel|TButton|TSpeedButton|TCheckBox|TRadioButton|TEdit|TMemo|TComboBox|TListBox|TListBoxItem|TSpinBox|TTrackBar|TSwitch|TProgressBar|TImage|TImageControl|TPath|TRectangle|TCircle|TEllipse|TLine|TArc|TPie|TText|TCalloutRectangle|TCalloutPanel|TPanel|TGroupBox|TExpander|TTabControl|TTabItem|TTreeView|TTreeViewItem|TListView|TListViewItem|TGrid|TStringGrid|TStringColumn|TPopupBox|TColorBox|TComboColorBox|TDateEdit|TTimeEdit|TCalendar|TCalendarEdit|TNumberBox|TClearingEdit|TSearchBox|TPasswordEdit|TMultiView|TImageViewer|TPresentedScrollBox|TAniIndicator|TBitmapListAnimation|TColorAnimation|TFloatAnimation|TGradientAnimation|TPathAnimation|TRectAnimation|TBitmapAnimation|TColorKeyAnimation|TStyleBook|TTimer|TGestureManager|TActionList|TAction|TImageList|TBitmapListItem|TPrototypeBindSource|TAdapterBindSource|TBindNavigator|TBindScope|TBindSourceDB|TBindDBGrid|TBindDBEdit|TBindDBText|TBindDBMemo|TBindDBImage|TBindDBComboBox|TBindDBListBox|TBindDBCheckBox|TBindList|TBindControlValue|TBindExpression|TBindLink|TBindPosition|TBindGridList|TBindGridLink)\\b"
+        }
+      ]
+    },
+    "lcl-classes": {
+      "patterns": [
+        {
+          "name": "support.class.lcl.pascal",
+          "match": "(?i)\\b(TForm|TFrame|TDataModule|TApplication|TScreen|TMouse|TClipboard|TCanvas|TBrush|TPen|TFont|TGraphic|TBitmap|TIcon|TPixmap|TPortableNetworkGraphic|TJPEGImage|TPicture|TImage|TShape|TBevel|TPaintBox|TButton|TBitBtn|TSpeedButton|TCheckBox|TRadioButton|TEdit|TMaskEdit|TLabeledEdit|TLabel|TStaticText|TListBox|TCheckListBox|TComboBox|TMemo|TRichMemo|TPanel|TGroupBox|TRadioGroup|TCheckGroup|TScrollBox|TNotebook|TPage|TPageControl|TTabSheet|TTabControl|TStatusBar|TToolBar|TToolButton|TCoolBar|TMainMenu|TPopupMenu|TMenuItem|TTreeView|TListView|THeaderControl|TProgressBar|TTrackBar|TUpDown|TSpinEdit|TFloatSpinEdit|TArrow|TCalendar|TEditButton|TFileNameEdit|TDirectoryEdit|TDateEdit|TCalcEdit|TFileListBox|TFilterComboBox|TShellTreeView|TShellListView|TXMLPropStorage|TIniPropStorage|TJSONPropStorage|TOpenDialog|TSaveDialog|TSelectDirectoryDialog|TColorDialog|TFontDialog|TFindDialog|TReplaceDialog|TOpenPictureDialog|TSavePictureDialog|TCalendarDialog|TCalculatorDialog|TPrinterSetupDialog|TPrintDialog|TPageSetupDialog|TTimer|TIdleTimer|TLazComponentQueue|TImageList|TActionList|TAction|THelpDatabase|THTMLBrowserHelpViewer|THTMLHelpDatabase|TCHMHelpDatabase|TThread|TCriticalSection|TRTLCriticalSection|TEventObject|TSemaphore|TSimpleEvent|TBarrier|TLazMonitor)\\b"
+        }
+      ]
+    },
+    "standard-classes": {
+      "patterns": [
+        {
+          "name": "support.class.standard.pascal",
+          "match": "(?i)\\b(TObject|TClass|TPersistent|TComponent|TInterfacedObject|TInterfacedPersistent|TAggregatedObject|TContainedObject|TClassHelperBase|TEnumerator|TEnumerable|TCustomAttribute)\\b"
+        }
+      ]
+    },
+    "collection-classes": {
+      "patterns": [
+        {
+          "name": "support.class.collection.pascal",
+          "match": "(?i)\\b(TList|TThreadList|TInterfaceList|TBucketList|TObjectList|TComponentList|TClassList|TOrderedList|TStack|TObjectStack|TQueue|TObjectQueue|TCollection|TCollectionItem|TOwnedCollection|TStringList|THashedStringList|TStrings|TBits|TDictionary|TObjectDictionary|TList|TObjectList|TQueue|TStack|TThreadedQueue|TMonitor|TLightweightMREW|TSpinLock|TLightweightSemaphore|TCountdownEvent|TLightweightEvent|TPair|TArray|TEnex|TAbstractContainer|TContainer|TEnexCollection|TEnexAssociativeCollection|TAbstractDistinctCollection|TDistinctCollection|TAbstractBag|TBag|TAbstractSet|TSet|THashSet|TSortedSet|TAbstractList|TLinkedList|TArraySet|TSortedList|TSortedDistinctMultiSet|TDistinctMultiSet|TAbstractMultiMap|TMultiMap|TSortedMultiMap|TDoubleSortedMultiMap|TAbstractBidiMap|TBidiMap|TAbstractMap|TMap|THashMap|TSortedMap|TDoubleSortedMap)\\b"
+        }
+      ]
+    },
+    "stream-classes": {
+      "patterns": [
+        {
+          "name": "support.class.stream.pascal",
+          "match": "(?i)\\b(TStream|THandleStream|TFileStream|TCustomMemoryStream|TMemoryStream|TBytesStream|TStringStream|TResourceStream|TBlobStream|TOleStream|TStreamAdapter|TFiler|TReader|TWriter|TTextReader|TStreamReader|TStringReader|TTextWriter|TStreamWriter|TStringWriter|TBinaryReader|TBinaryWriter|TEncoding|TUTF7Encoding|TUTF8Encoding|TUnicodeEncoding|TBigEndianUnicodeEncoding|TANSI)\\b"
+        }
+      ]
+    },
+    "exception-classes": {
+      "patterns": [
+        {
+          "name": "support.class.exception.pascal",
+          "match": "(?i)\\b(Exception|EAbort|EAbstractError|EAccessViolation|EArgumentException|EArgumentNilException|EArgumentOutOfRangeException|EArithmeticException|EArrayTypeMismatch|EAssertionFailed|EBusError|ECodesetConversion|EComponentError|ECommonCalendarError|ECommonCalendarInvalidDateRange|EConversionError|EConvertError|EControlC|EDatabaseError|EDateTimeException|EDivByZero|EEncodingError|EExternal|EExternalException|EFormatError|EFCreateError|EFilerError|EFOpenError|EHeapException|EHelpSystemException|EIdException|EIdSocketError|EIdConnClosedGracefully|EInOutError|EIntError|EIntfCastError|EIntOverflow|EInvalidCast|EInvalidContainer|EInvalidGraphic|EInvalidGraphicOperation|EInvalidGridOperation|EInvalidInsert|EInvalidOp|EInvalidOperation|EInvalidPointer|EListError|EMathError|EMenuError|EMonitor|EMonitorLockException|ENoConstructException|ENotImplemented|ENotSupportedException|EOleError|EOleException|EOleSysError|EOutlinerError|EOutlinerChange|EOutOfMemory|EOutOfResources|EOverflow|EPackageError|EParserError|EPrinter|EPropReadOnly|EPropWriteOnly|EPropertyConvertError|EPropertyError|EQuit|ERangeError|EReadError|ERegExprException|ERegistryException|EResNotFound|EReportError|ERichEditError|ESafecallException|EScriptError|ESecurityException|ESocketError|ESOAPHTTPException|ESQLException|EStackOverflow|EStringListError|EStreamError|ETestFailure|EThread|ETreeViewError|EUnderflow|EURLException|EVariantArrayCreateError|EVariantArrayLockedError|EVariantBadIndexError|EVariantBadVarTypeError|EVariantInvalidArgError|EVariantInvalidOpError|EVariantNotAnArrayError|EVariantNotImplError|EVariantOutOfMemoryError|EVariantOverflowError|EVariantTypeCastError|EVariantUnexpectedError|EWriteError|EXMLDocError|EZeroDivide)\\b"
+        }
+      ]
+    },
+    "database-classes": {
+      "patterns": [
+        {
+          "name": "support.class.database.pascal",
+          "match": "(?i)\\b(TDataSet|TDBDataSet|TCustomConnection|TDatabase|TDBTransaction|TTable|TQuery|TStoredProc|TNestedDataSet|TParam|TParams|TField|TStringField|TIntegerField|TSmallintField|TLargeintField|TWordField|TAutoIncField|TFloatField|TCurrencyField|TBooleanField|TDateTimeField|TDateField|TTimeField|TBinaryField|TBytesField|TVarBytesField|TBCDField|TFMTBCDField|TBlobField|TMemoField|TGraphicField|TObjectField|TADTField|TArrayField|TDataSetField|TReferenceField|TVariantField|TInterfaceField|TIDispatchField|TGuidField|TAggregateField|TWideStringField|TWideMemoField|TDataSource|TClientDataSet|TXMLTransform|TXMLTransformProvider|TXMLTransformClient|TSimpleDataSet|TSQLDataSet|TSQLQuery|TSQLStoredProc|TSQLTable|TSQLConnection|TSQLMonitor|TDataSetProvider|TLocalConnection|TRemoteServer|TSocketConnection|TWebConnection|TCorbaConnection|TDCOMConnection|TMIDASConnection|TSharedConnection|TADOConnection|TADOCommand|TADODataSet|TADOQuery|TADOTable|TADOStoredProc|TCustomADODataSet|TRDSConnection|TInternalConnection|TDBXConnection|TDBXCommand|TDBXReader|TSQLConnection|TSQLDataSet|TSQLQuery|TSQLStoredProc|TSQLTable|TSQLMonitor|TSimpleDataSet|TFDConnection|TFDQuery|TFDTable|TFDStoredProc|TFDCommand|TFDMemTable|TFDSchemaAdapter|TFDTableAdapter|TFDUpdateSQL|TFDTransaction|TFDGUIxWaitCursor|TFDGUIxLoginDialog|TFDGUIxErrorDialog|TFDPhysMySQLDriverLink|TFDPhysPgDriverLink|TFDPhysMSSQLDriverLink|TFDPhysOracleDriverLink|TFDPhysSQLiteDriverLink|TFDPhysIBDriverLink|TFDPhysFBDriverLink|TIBConnection|TIBTransaction|TIBQuery|TIBTable|TIBStoredProc|TIBDataSet|TIBUpdateSQL|TIBDatabase|TSQLConnection|TSQLQuery|TSQLTable|TSQLStoredProc|TSQLDataSet|TSQLMonitor|TZConnection|TZQuery|TZTable|TZStoredProc|TZReadOnlyQuery|TZSequence|TZUpdateSQL)\\b"
+        }
+      ]
+    },
+    "xml-classes": {
+      "patterns": [
+        {
+          "name": "support.class.xml.pascal",
+          "match": "(?i)\\b(TXMLDocument|TXMLNode|TXMLNodeList|IDOMNode|IDOMNodeList|IDOMNamedNodeMap|IDOMDocument|IDOMElement|IDOMAttr|IDOMCharacterData|IDOMText|IDOMComment|IDOMCDATASection|IDOMDocumentType|IDOMNotation|IDOMEntity|IDOMEntityReference|IDOMProcessingInstruction|IDOMDocumentFragment|IDOMImplementation|TDOMNode|TDOMNodeList|TDOMNamedNodeMap|TDOMDocument|TDOMElement|TDOMAttr|TDOMCharacterData|TDOMText|TDOMComment|TDOMCDATASection|TDOMDocumentType|TDOMNotation|TDOMEntity|TDOMEntityReference|TDOMProcessingInstruction|TDOMDocumentFragment|TXMLDocumentParser|TDOMParser|TSAXParser|TXPathExpression|TXPathResult|TXPathVariable|TXPathContext|TXSLProcessor|TXMLReader|TXMLWriter)\\b"
+        }
+      ]
+    },
+    "json-classes": {
+      "patterns": [
+        {
+          "name": "support.class.json.pascal",
+          "match": "(?i)\\b(TJSONValue|TJSONTrue|TJSONFalse|TJSONNull|TJSONNumber|TJSONString|TJSONObject|TJSONArray|TJSONPair|TJSONAncestor|TJSONByteReader|TJSONBytesReader|TJSONObjectBuilder|TJSONArrayBuilder|TJSONCollectionBuilder|TJSONIterator|TJSONPathParser|TJSONPathFinder|TJSONReader|TJSONTextReader|TJSONWriter|TJSONTextWriter|TJSONValueHelper|TJSONObjectHelper|TJSONArrayHelper)\\b"
+        }
+      ]
+    },
+    "network-classes": {
+      "patterns": [
+        {
+          "name": "support.class.network.pascal",
+          "match": "(?i)\\b(TIdTCPServer|TIdTCPClient|TIdTCPConnection|TIdUDPServer|TIdUDPClient|TIdHTTP|TIdHTTPServer|TIdFTP|TIdFTPServer|TIdSMTP|TIdSMTPServer|TIdPOP3|TIdPOP3Server|TIdIMAP4|TIdNNTP|TIdTelnet|TIdDNSResolver|TIdWhois|TIdFinger|TIdTime|TIdEcho|TIdChargen|TIdQOTD|TIdDiscard|TIdTrivialFTP|TIdTrivialFTPServer|TIdGopher|TIdIRC|TIdRSH|TIdRexec|TIdSSLIOHandlerSocketOpenSSL|TIdServerIOHandlerSSLOpenSSL|TIdConnectionIntercept|TIdLogEvent|TIdLogFile|TIdLogDebug|TIdNetworkCalculator|TIdStack|TIdStackWindows|TIdStackLinux|TIdSocketHandle|TIdIOHandler|TIdIOHandlerSocket|TIdIOHandlerStack|TIdAntiFreeze|TIdThreadSafe|TIdThreadSafeInteger|TIdThreadSafeString|TIdThreadSafeStringList|TIdThread|TIdThreadComponent|TIdSync|TIdNotify|TServerSocket|TClientSocket|TCustomWinSocket|TCustomSocket|TWinSocketStream|TAbstractWebDispatcher|TWebDispatcher|TWebApplication|TWebModule|TWebRequest|TWebResponse|TIdHTTPWebBrokerBridge|TSoapHTTPClient|THTTPReqResp|THTTPRio|THTTPRIO|THTTPSoapDispatcher|THTTPSoapPascalInvoker|TWSDLHTMLPublish|TUDDIPublish|TSOAPAttachment|TSOAPAttachHandler|TMimeAttachmentHandler|TSOAPDomConv|TSOAPEnvelope|TSOAPHeader|TSOAPBody|TSOAPFault|TSOAPPortType|TSOAPBinding|TSOAPOperation|TSOAPAddress|TWebServiceInfo|TWebServiceOperationInfo|TXMLSchemaNode|TXMLSchemaRoot|TXMLDataSet|TXMLTransform|TXMLTransformProvider|TXMLTransformClient|TRESTClient|TRESTRequest|TRESTResponse|TCustomRESTClient|TCustomRESTRequest|TCustomRESTResponse|TRESTRequestParameter|TRESTRequestParameterList|TRESTResponseCookie|TRESTResponseCookies)\\b"
+        }
+      ]
+    },
+    "graphics-classes": {
+      "patterns": [
+        {
+          "name": "support.class.graphics.pascal",
+          "match": "(?i)\\b(TCanvas|TGraphic|TBitmap|TIcon|TMetafile|TMetafileCanvas|TPicture|TBrush|TPen|TFont|TColor|TColorRef|TGraphicExtension|TGraphicClass|TSharedImage|TBitmapImage|TBitmapHandleType|TIconImage|TMetafileImage|TClipboard|TPrinter|TPrinterCanvas|TPrintDialog|TPrinterSetupDialog|TPageSetupDialog|TCustomCanvas|TControlCanvas|TCanvasRecall|TCanvasState|TBrushRecall|TPenRecall|TFontRecall|TCustomDrawingControl|TPaintBox|TImage|TBevel|TShape|TCustomControl|TGraphicControl|TWinControl|TCustomListControl|TCustomMultiSelectListControl|TCustomListView|TListItem|TListItems|TListColumn|TListColumns|TIconOptions|TWorkArea|TWorkAreas|TOwnerDataStateChange|TCustomTreeView|TTreeNode|TTreeNodes|TTreeView|THeaderControl|THeaderSection|THeaderSections|TStatusPanel|TStatusPanels|TCustomStatusBar|TStatusBar|TToolBar|TToolButton|TToolBarButton|TCoolBar|TCoolBand|TCoolBands|TPageControl|TTabSheet|TCustomTabControl|TAnimate|TCustomRichEdit|TRichEdit|TTrackBar|TProgressBar|TCustomUpDown|TUpDown|TCustomHotKey|THotKey|TCustomListBox|TListBox|TCustomComboBox|TComboBox|TButtonControl|TButton|TCheckBox|TRadioButton|TCustomEdit|TEdit|TMemo|TScrollBar|TScrollBox|TControlScrollBar|TCustomLabel|TLabel|TCustomPanel|TPanel|TCustomSplitter|TSplitter|TGlassFrame|TMargins|TPadding|TCustomImageList|TImageList|TDragImageList|TCustomAction|TAction|TContainedAction|TCustomActionList|TActionList|TShortCutList|TPngImage|TJPEGImage|TGIFImage|TTIFFImage)\\b"
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.begin-end.pascal",
+          "match": "(?i)\\b(begin|end|asm)\\b"
+        },
+        {
+          "name": "keyword.control.flow.pascal",
+          "match": "(?i)\\b(if|then|else|case|of|for|to|downto|do|while|repeat|until|with|try|except|finally|raise|on|at)\\b"
+        },
+        {
+          "name": "keyword.control.other.pascal",
+          "match": "(?i)\\b(break|continue|exit|goto|label|halt|abort)\\b"
+        },
+        {
+          "name": "keyword.other.unit.pascal",
+          "match": "(?i)\\b(program|unit|library|package|uses|interface|implementation|initialization|finalization|contains|requires|exports)\\b"
+        },
+        {
+          "name": "keyword.storage.type.pascal",
+          "match": "(?i)\\b(type|class|record|object|interface|dispinterface|helper|array|set|file|packed|of)\\b"
+        },
+        {
+          "name": "keyword.storage.routine.pascal",
+          "match": "(?i)\\b(procedure|function|constructor|destructor|operator)\\b"
+        },
+        {
+          "name": "keyword.storage.modifier.pascal",
+          "match": "(?i)\\b(private|protected|public|published|automated|strict|virtual|abstract|dynamic|override|reintroduce|overload|message|static|sealed|final|unsafe|experimental|platform|deprecated|library|assembler|inline|forward|external|far|near|export|cdecl|pascal|register|safecall|stdcall|cppdecl|mwpascal|winapi|saveregisters|softfloat|hardfloat|nostackframe|interrupt|iochecks|nodefault|stored|implements)\\b"
+        },
+        {
+          "name": "keyword.storage.var.pascal",
+          "match": "(?i)\\b(var|const|out|constref|resourcestring|threadvar|absolute|specialize|generic)\\b"
+        },
+        {
+          "name": "keyword.storage.property.pascal",
+          "match": "(?i)\\b(property|read|write|default|index|add|remove|readonly|writeonly|dispid)\\b"
+        },
+        {
+          "name": "keyword.operator.logical.pascal",
+          "match": "(?i)\\b(and|or|not|xor|shl|shr|div|mod|in|is|as)\\b"
+        },
+        {
+          "name": "keyword.other.pascal",
+          "match": "(?i)\\b(nil|self|inherited|result)\\b"
+        }
+      ]
+    },
+    "numbers": {
+      "patterns": [
+        {
+          "name": "constant.numeric.hex.pascal",
+          "match": "\\$[0-9A-Fa-f]+"
+        },
+        {
+          "name": "constant.numeric.binary.pascal",
+          "match": "%[01]+"
+        },
+        {
+          "name": "constant.numeric.octal.pascal",
+          "match": "&[0-7]+"
+        },
+        {
+          "name": "constant.numeric.float.pascal",
+          "match": "\\b\\d+\\.\\d+([eE][+-]?\\d+)?\\b"
+        },
+        {
+          "name": "constant.numeric.float.pascal",
+          "match": "\\b\\d+[eE][+-]?\\d+\\b"
+        },
+        {
+          "name": "constant.numeric.integer.pascal",
+          "match": "\\b\\d+\\b"
+        }
+      ]
+    },
+    "operators": {
+      "patterns": [
+        {
+          "name": "keyword.operator.assignment.pascal",
+          "match": ":="
+        },
+        {
+          "name": "keyword.operator.compound-assignment.pascal",
+          "match": "(\\+=|-=|\\*=|/=)"
+        },
+        {
+          "name": "keyword.operator.comparison.pascal",
+          "match": "(=|<>|<|>|<=|>=)"
+        },
+        {
+          "name": "keyword.operator.arithmetic.pascal",
+          "match": "(\\+|-|\\*|/)"
+        },
+        {
+          "name": "keyword.operator.pointer.pascal",
+          "match": "(@|\\^)"
+        },
+        {
+          "name": "keyword.operator.range.pascal",
+          "match": "\\.\\."
+        },
+        {
+          "name": "keyword.operator.member.pascal",
+          "match": "\\."
+        },
+        {
+          "name": "keyword.operator.address.pascal",
+          "match": "@"
+        }
+      ]
+    },
+    "types": {
+      "patterns": [
+        {
+          "name": "storage.type.boolean.pascal",
+          "match": "(?i)\\b(Boolean|ByteBool|WordBool|LongBool|Bool)\\b"
+        },
+        {
+          "name": "storage.type.integer.pascal",
+          "match": "(?i)\\b(Byte|ShortInt|SmallInt|Word|Integer|Cardinal|LongInt|LongWord|Int64|UInt64|QWord|DWord|NativeInt|NativeUInt|PtrInt|PtrUInt|SizeInt|SizeUInt|IntPtr|UIntPtr)\\b"
+        },
+        {
+          "name": "storage.type.float.pascal",
+          "match": "(?i)\\b(Real|Single|Double|Extended|Comp|Currency|Real48|Float|TFloat)\\b"
+        },
+        {
+          "name": "storage.type.char.pascal",
+          "match": "(?i)\\b(Char|AnsiChar|WideChar|UnicodeChar|UTF8Char|WChar|UCS2Char|UCS4Char)\\b"
+        },
+        {
+          "name": "storage.type.string.pascal",
+          "match": "(?i)\\b(String|ShortString|AnsiString|WideString|UnicodeString|UTF8String|UTF16String|RawByteString|OpenString|PString|PUTF8String)\\b"
+        },
+        {
+          "name": "storage.type.variant.pascal",
+          "match": "(?i)\\b(Variant|OleVariant|TVarData|PVarData|TVarRec|PVarRec)\\b"
+        },
+        {
+          "name": "storage.type.file.pascal",
+          "match": "(?i)\\b(Text|TextFile|File)\\b"
+        },
+        {
+          "name": "storage.type.other.pascal",
+          "match": "(?i)\\b(Pointer|TMethod|TThreadID|THandle)\\b"
+        }
+      ]
+    },
+    "pointer-types": {
+      "patterns": [
+        {
+          "name": "storage.type.pointer.pascal",
+          "match": "(?i)\\b(Pointer|PChar|PAnsiChar|PWideChar|PUnicodeChar|PByte|PShortInt|PWord|PSmallInt|PInteger|PCardinal|PLongInt|PLongWord|PInt64|PUInt64|PSingle|PDouble|PExtended|PReal|PCurrency|PComp|PBoolean|PPointer|PPChar|PString|PWideString|PAnsiString|PVariant|PDateTime|PUTF8String|PNativeInt|PNativeUInt|PPByte|PPChar|PPInteger|PQWord|PMethod|PGUID|PHKEY|HWND|HDC|HBITMAP|HICON|HCURSOR|HFONT|HBRUSH|HPEN|HMENU|HPALETTE|HRGN|HINST|HMODULE|HGLOBAL|HLOCAL|HRSRC|HINSTANCE|HKEY|HDESK|HKL|HMONITOR|HRESULT|HACCEL|HHOOK|HTASK|HSTR|HFILE)\\b"
+        }
+      ]
+    },
+    "system-types": {
+      "patterns": [
+        {
+          "name": "storage.type.system.pascal",
+          "match": "(?i)\\b(TObject|TClass|TMetaClass|IInterface|IUnknown|IDispatch|IInvokable|TGUID|HRESULT|TTypeKind|TTypeData|PTypeData|TTypeInfo|PTypeInfo|TClassType|TMethod|TDateTime|TDate|TTime|TTimeStamp|TFileTime|TSystemTime|TRTLCriticalSection|TSecurityAttributes|TOverlapped|TStartupInfo|TProcessInformation|TOSVersionInfo|TMemoryStatus|TThreadID|LCID|TColor|TCursor|TShiftState|TPoint|TSmallPoint|TRect|TSize|TTextBuf|TVarRec|PVarRec|TBoundArray|TArrayOfString|TArrayOfInteger|TArrayOfByte|TBytes|TCharArray|TIntegerDynArray|TCardinalDynArray|TWordDynArray|TSmallIntDynArray|TByteDynArray|TInt64DynArray|TLongWordDynArray|TSingleDynArray|TDoubleDynArray|TBooleanDynArray|TStringDynArray|TWideStringDynArray|TVariantDynArray|TInterfaceDynArray|TObjectDynArray|TPointerDynArray|TProcedure|TNotifyEvent|TThreadMethod|TThreadProcedure|TGetStrProc|TExceptionEvent|TAssertErrorProc|TSafeCallErrorProc|TLibraryExitProc|TInitializationProc|TFinalizationProc|TExceptClsProc|TExceptionAcquired|TRaiseExceptionProc|TRTLUnwindProc|TBlockedException|TUnhandledException|TSystemError|TRunError)\\b"
+        }
+      ]
+    },
+    "constants": {
+      "patterns": [
+        {
+          "name": "constant.language.boolean.pascal",
+          "match": "(?i)\\b(True|False)\\b"
+        },
+        {
+          "name": "constant.language.nil.pascal",
+          "match": "(?i)\\b(nil)\\b"
+        },
+        {
+          "name": "constant.language.maxint.pascal",
+          "match": "(?i)\\b

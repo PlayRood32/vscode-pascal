@@ -1,0 +1,35 @@
+{
+  "editor.tokenColorCustomizations": {
+    "textMateRules": [
+      {
+        "scope": "keyword.control.begin-end.pascal",
+        "settings": {
+          "foreground": "#c58686",
+          "fontStyle": "bold"
+        }
+      },
+      {
+        "scope": "keyword.other.unit.pascal",
+        "settings": {
+          "foreground": "#c58686",
+          "fontStyle": "bold"
+        }
+      },
+      {
+        "scope": "support.function.io.pascal",
+        "settings": {
+          "foreground": "#DCDCAA"
+        }
+      }
+    ]
+  },
+
+  "code-runner.runInTerminal": true,
+  "code-runner.saveFileBeforeRun": true,
+  "code-runner.clearPreviousOutput": true,
+  "code-runner.preserveFocus": false,
+
+  "code-runner.executorMap": {
+    "pascal": "C:\\FPC\\3.2.2\\bin\\i386-Win32\\ppc386.exe -Twin64 -FuC:\\lazarus-libs\\lcl\\units\\x86_64-win64 -FuC:\\lazarus-libs\\units\\x86_64-win64 -FuC:\\lazarus-libs\\components -FuC:\\lazarus-libs\\packager\\units\\x86_64-win64 $fileName -o $fileNameWithoutExt.exe && .\\$fileNameWithoutExt.exe"
+  }
+}
