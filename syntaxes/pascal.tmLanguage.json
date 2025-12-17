@@ -1,0 +1,116 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Pascal",
+  "scopeName": "source.pascal",
+  "fileTypes": ["pas", "pp", "p", "dpr", "dpk", "lpr", "lpk", "inc"],
+  "patterns": [
+    { "include": "#comments" },
+    { "include": "#strings" },
+    { "include": "#numbers" },
+    { "include": "#keywords" },
+    { "include": "#built-in-functions" },
+    { "include": "#storage-types" },
+    { "include": "#operators" },
+    { "include": "#function-calls" },
+    { "include": "#variables" }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.double-slash.pascal",
+          "match": "//.*$"
+        },
+        {
+          "name": "comment.block.pascal",
+          "begin": "\\{",
+          "end": "\\}"
+        },
+        {
+          "name": "comment.block.pascal",
+          "begin": "\\(\\*",
+          "end": "\\*\\)"
+        }
+      ]
+    },
+    "strings": {
+      "patterns": [
+        {
+          "name": "string.quoted.single.pascal",
+          "begin": "'",
+          "end": "'",
+          "patterns": [
+            {
+              "name": "constant.character.escape.pascal",
+              "match": "''"
+            }
+          ]
+        }
+      ]
+    },
+    "numbers": {
+      "patterns": [
+        {
+          "name": "constant.numeric.integer.pascal",
+          "match": "\\b\\d+\\b"
+        },
+        {
+          "name": "constant.numeric.float.pascal",
+          "match": "\\b\\d+\\.\\d+\\b"
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.pascal",
+          "match": "\\b(begin|end|if|then|else|while|do|for|to|downto|repeat|until|case|of|try|except|finally|with)\\b"
+        },
+        {
+          "name": "keyword.other.pascal",
+          "match": "\\b(program|unit|uses|interface|implementation|initialization|finalization|var|const|type|procedure|function|constructor|destructor|class|record|object|property|inherited|override|virtual|abstract)\\b"
+        }
+      ]
+    },
+    "built-in-functions": {
+      "patterns": [
+        {
+          "name": "support.function.pascal",
+          "match": "\\b(Write|WriteLn|Read|ReadLn|Length|Copy|Inc|Dec|Ord|Chr|Pred|Succ|High|Low|SizeOf|Assign|Reset|Rewrite|Append|Close|Str|Val|Concat|Pos|Delete|Insert|UpCase|LowCase)\\b"
+        }
+      ]
+    },
+    "storage-types": {
+      "patterns": [
+        {
+          "name": "storage.type.pascal",
+          "match": "\\b(Integer|String|Boolean|Char|Real|Byte|Word|LongInt|Cardinal|ShortInt|SmallInt|LongWord|Int64|Single|Double|Extended|Comp|Currency|Pointer|File|Text|Array|Set|Record|Object|Class|Interface)\\b"
+        }
+      ]
+    },
+    "operators": {
+      "patterns": [
+        {
+          "name": "keyword.operator.pascal",
+          "match": "\\b(and|or|xor|not|div|mod|shl|shr|in|is|as)\\b"
+        }
+      ]
+    },
+    "function-calls": {
+      "patterns": [
+        {
+          "name": "entity.name.function.pascal",
+          "match": "\\b[A-Za-z_][A-Za-z0-9_]*\\s*(?=\\()"
+        }
+      ]
+    },
+    "variables": {
+      "patterns": [
+        {
+          "name": "variable.other.pascal",
+          "match": "\\b[A-Za-z_][A-Za-z0-9_]*\\b"
+        }
+      ]
+    }
+  }
+}

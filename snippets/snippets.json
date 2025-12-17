@@ -1,0 +1,1443 @@
+{
+  "Program Template": {
+    "prefix": "program",
+    "body": [
+      "program ${TM_FILENAME_BASE};",
+      "",
+      "{$mode objfpc}{$H+}{$J-}",
+      "{$WARN 5024 off : Parameter not used}",
+      "",
+      "uses",
+      "  {$IFDEF UNIX}",
+      "  cthreads, cmem,",
+      "  {$ENDIF}",
+      "  SysUtils, Classes${1:, Types, Math};",
+      "",
+      "begin",
+      "  try",
+      "    ${2:// TODO: Implementation}",
+      "  except",
+      "    on E: Exception do",
+      "    begin",
+      "      WriteLn(StdErr, 'Fatal error: ', E.ClassName, ': ', E.Message);",
+      "      ExitCode := 1;",
+      "    end;",
+      "  end;",
+      "end."
+    ],
+    "description": "Professional Pascal program with filename as program name"
+  },
+  "Program Console Template": {
+    "prefix": "progconsole",
+    "body": [
+      "program ${TM_FILENAME_BASE};",
+      "",
+      "{$APPTYPE CONSOLE}",
+      "{$mode objfpc}{$H+}",
+      "",
+      "uses",
+      "  SysUtils;",
+      "",
+      "procedure Main;",
+      "begin",
+      "  ${1:// TODO}",
+      "end;",
+      "",
+      "begin",
+      "  try",
+      "    Main;",
+      "  except",
+      "    on E: Exception do",
+      "      WriteLn(StdErr, E.Message);",
+      "  end;",
+      "  {$IFDEF WINDOWS}",
+      "  ReadLn;",
+      "  {$ENDIF}",
+      "end."
+    ],
+    "description": "Console application template with filename as program name"
+  },
+  "Program Minimal": {
+    "prefix": "pmin",
+    "body": [
+      "program ${TM_FILENAME_BASE};",
+      "",
+      "",
+      "begin",
+      "  ${1:}",
+      "end."
+    ],
+    "description": "Minimal Pascal program with filename as program name"
+  },
+  "Unit Template Full": {
+    "prefix": "unit",
+    "body": [
+      "unit ${1:UnitName};",
+      "",
+      "{$mode objfpc}{$H+}{$J-}",
+      "{$interfaces corba}",
+      "",
+      "interface",
+      "",
+      "uses",
+      "  Classes, SysUtils${2:, Types};",
+      "",
+      "type",
+      "  ${3:TMyClass} = class(${4:TObject})",
+      "  strict private",
+      "    ${5:FField: Integer;}",
+      "  private",
+      "    ${6:procedure SetField(AValue: Integer);}",
+      "  protected",
+      "    ${7:// Protected members}",
+      "  public",
+      "    constructor Create;",
+      "    destructor Destroy; override;",
+      "    ${8:// Public methods}",
+      "  published",
+      "    ${9:property Field: Integer read FField write SetField;}",
+      "  end;",
+      "",
+      "implementation",
+      "",
+      "{ ${3:TMyClass} }",
+      "",
+      "constructor ${3:TMyClass}.Create;",
+      "begin",
+      "  inherited Create;",
+      "  ${10:// Initialization}",
+      "end;",
+      "",
+      "destructor ${3:TMyClass}.Destroy;",
+      "begin",
+      "  ${11:// Cleanup}",
+      "  inherited Destroy;",
+      "end;",
+      "",
+      "${0:// Additional implementations}",
+      "",
+      "end."
+    ],
+    "description": "Complete unit with full OOP structure"
+  },
+  "Unit Interface Only": {
+    "prefix": "unitintf",
+    "body": [
+      "unit ${1:UnitName};",
+      "",
+      "{$mode objfpc}{$H+}",
+      "",
+      "interface",
+      "",
+      "uses",
+      "  Classes, SysUtils;",
+      "",
+      "${0:// Declarations}",
+      "",
+      "implementation",
+      "",
+      "end."
+    ],
+    "description": "Basic unit structure"
+  },
+  "Library Template": {
+    "prefix": "library",
+    "body": [
+      "library ${1:LibraryName};",
+      "",
+      "{$mode objfpc}{$H+}",
+      "",
+      "uses",
+      "  SysUtils, Classes;",
+      "",
+      "function ${2:MyFunction}(${3:AParam: Integer}): ${4:Integer}; cdecl;",
+      "begin",
+      "  Result := ${5:0};",
+      "end;",
+      "",
+      "exports",
+      "  ${2:MyFunction};",
+      "",
+      "begin",
+      "end."
+    ],
+    "description": "Shared library/DLL template"
+  },
+  "Package Template": {
+    "prefix": "package",
+    "body": [
+      "package ${1:PackageName};",
+      "",
+      "{$R *.res}",
+      "{$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}",
+      "{$ALIGN 8}",
+      "{$ASSERTIONS ON}",
+      "{$BOOLEVAL OFF}",
+      "{$DEBUGINFO ON}",
+      "{$EXTENDEDSYNTAX ON}",
+      "{$IMPORTEDDATA ON}",
+      "{$IOCHECKS ON}",
+      "{$LOCALSYMBOLS ON}",
+      "{$LONGSTRINGS ON}",
+      "{$OPENSTRINGS ON}",
+      "{$OPTIMIZATION OFF}",
+      "{$OVERFLOWCHECKS OFF}",
+      "{$RANGECHECKS OFF}",
+      "{$REFERENCEINFO ON}",
+      "{$SAFEDIVIDE OFF}",
+      "{$STACKFRAMES ON}",
+      "{$TYPEDADDRESS OFF}",
+      "{$VARSTRINGCHECKS ON}",
+      "{$WRITEABLECONST OFF}",
+      "{$MINENUMSIZE 1}",
+      "{$IMAGEBASE $400000}",
+      "{$DEFINE DEBUG}",
+      "{$ENDIF IMPLICITBUILDING}",
+      "{$IMPLICITBUILD ON}",
+      "",
+      "requires",
+      "  rtl,",
+      "  ${2:vcl};",
+      "",
+      "contains",
+      "  ${3:Unit1} in '${4:Unit1.pas}';",
+      "",
+      "end."
+    ],
+    "description": "Delphi package template"
+  },
+  "Class Full": {
+    "prefix": "class",
+    "body": [
+      "T${1:ClassName} = class(${2:TObject})",
+      "strict private",
+      "  ${3:FField: Integer;}",
+      "  class var",
+      "    ${4:FClassField: Integer;}",
+      "private",
+      "  ${5:procedure SetField(AValue: Integer);}",
+      "  class procedure ${6:ClassMethod}; static;",
+      "protected",
+      "  ${7:// Protected}",
+      "public",
+      "  constructor Create${8:(${9:AParam: Integer})};",
+      "  destructor Destroy; override;",
+      "  class constructor Create;",
+      "  class destructor Destroy;",
+      "  ${10:// Public methods}",
+      "published",
+      "  ${11:property Field: Integer read FField write SetField;}",
+      "end;"
+    ],
+    "description": "Complete class with all features"
+  },
+  "Class Abstract": {
+    "prefix": "classabs",
+    "body": [
+      "T${1:ClassName} = class abstract(${2:TObject})",
+      "protected",
+      "  procedure ${3:AbstractMethod}; virtual; abstract;",
+      "public",
+      "  ${0:// Public members}",
+      "end;"
+    ],
+    "description": "Abstract class"
+  },
+  "Class Sealed": {
+    "prefix": "classsealed",
+    "body": [
+      "T${1:ClassName} = class sealed(${2:TObject})",
+      "public",
+      "  ${0:// Public members}",
+      "end;"
+    ],
+    "description": "Sealed class (cannot be inherited)"
+  },
+  "Class Helper": {
+    "prefix": "classhelper",
+    "body": [
+      "T${1:Helper} = class helper for ${2:TObject}",
+      "public",
+      "  ${3:function HelperMethod: Integer;}",
+      "end;",
+      "",
+      "{ T${1:Helper} }",
+      "",
+      "function T${1:Helper}.${3:HelperMethod}: Integer;",
+      "begin",
+      "  Result := ${0:0};",
+      "end;"
+    ],
+    "description": "Class helper extension"
+  },
+  "Record Helper": {
+    "prefix": "recordhelper",
+    "body": [
+      "T${1:Helper} = record helper for ${2:TRecord}",
+      "public",
+      "  ${3:function HelperMethod: Integer;}",
+      "end;",
+      "",
+      "{ T${1:Helper} }",
+      "",
+      "function T${1:Helper}.${3:HelperMethod}: Integer;",
+      "begin",
+      "  Result := ${0:0};",
+      "end;"
+    ],
+    "description": "Record helper extension"
+  },
+  "Type Helper": {
+    "prefix": "typehelper",
+    "body": [
+      "T${1:IntegerHelper} = type helper for ${2:Integer}",
+      "public",
+      "  function ${3:ToString}: string;",
+      "  ${0:// Additional methods}",
+      "end;",
+      "",
+      "{ T${1:IntegerHelper} }",
+      "",
+      "function T${1:IntegerHelper}.${3:ToString}: string;",
+      "begin",
+      "  Result := IntToStr(Self);",
+      "end;"
+    ],
+    "description": "Type helper for primitive types"
+  },
+  "Record Simple": {
+    "prefix": "record",
+    "body": [
+      "T${1:RecordName} = record",
+      "  ${2:Field1: Integer;}",
+      "  ${3:Field2: String;}",
+      "end;"
+    ],
+    "description": "Simple record"
+  },
+  "Record Advanced": {
+    "prefix": "recordadv",
+    "body": [
+      "T${1:RecordName} = record",
+      "strict private",
+      "  ${2:FField: Integer;}",
+      "private",
+      "  ${3:procedure SetField(AValue: Integer);}",
+      "public",
+      "  constructor Create(${4:AValue: Integer});",
+      "  class operator Initialize(var ${5:Rec}: T${1:RecordName});",
+      "  class operator Finalize(var ${5:Rec}: T${1:RecordName});",
+      "  class operator Add(const ${6:A}, ${7:B}: T${1:RecordName}): T${1:RecordName};",
+      "  class operator Equal(const ${6:A}, ${7:B}: T${1:RecordName}): Boolean;",
+      "  ${8:// Methods}",
+      "  property Field: Integer read FField write SetField;",
+      "  case ${9:Kind}: ${10:Integer} of",
+      "    ${11:0}: (${12:IntValue: Integer});",
+      "    ${13:1}: (${14:StrValue: String});",
+      "end;"
+    ],
+    "description": "Advanced record with operators and variant part"
+  },
+  "Record Packed": {
+    "prefix": "recordpacked",
+    "body": [
+      "T${1:PackedRecord} = packed record",
+      "  ${2:Field1: Byte;}",
+      "  ${3:Field2: Word;}",
+      "end;"
+    ],
+    "description": "Packed record for binary data"
+  },
+  "Interface CORBA": {
+    "prefix": "interface",
+    "body": [
+      "I${1:InterfaceName} = interface",
+      "  ['{${2:GUID}}']",
+      "  ${3:procedure Method;}",
+      "  ${4:function GetValue: Integer;}",
+      "  ${5:property Value: Integer read GetValue;}",
+      "end;"
+    ],
+    "description": "CORBA interface with GUID"
+  },
+  "Interface COM": {
+    "prefix": "interfacecom",
+    "body": [
+      "I${1:InterfaceName} = interface(IUnknown)",
+      "  ['{${2:GUID}}']",
+      "  function ${3:Method}(${4:AParam: Integer}): HResult; stdcall;",
+      "end;"
+    ],
+    "description": "COM interface"
+  },
+  "Interface Dispinterface": {
+    "prefix": "dispinterface",
+    "body": [
+      "I${1:DispInterfaceName} = dispinterface",
+      "  ['{${2:GUID}}']",
+      "  ${3:procedure Method;}",
+      "end;"
+    ],
+    "description": "Dispatch interface for automation"
+  },
+  "Object Type": {
+    "prefix": "object",
+    "body": [
+      "T${1:ObjectName} = object",
+      "  ${2:Field: Integer;}",
+      "  constructor Init${3:(${4:AParam: Integer})};",
+      "  destructor Done;",
+      "  ${5:procedure Method;}",
+      "end;"
+    ],
+    "description": "Old-style object (Turbo Pascal)"
+  },
+  "Generic Class": {
+    "prefix": "generic",
+    "body": [
+      "generic T${1:ClassName}<${2:T}> = class",
+      "private",
+      "  FData: ${2:T};",
+      "  FList: array of ${2:T};",
+      "public",
+      "  constructor Create${3:(const AData: ${2:T})};",
+      "  procedure Add(const AItem: ${2:T});",
+      "  function Get(AIndex: Integer): ${2:T};",
+      "  property Data: ${2:T} read FData write FData;",
+      "  ${0:// Additional methods}",
+      "end;"
+    ],
+    "description": "Generic class template"
+  },
+  "Generic Record": {
+    "prefix": "genericrec",
+    "body": [
+      "generic T${1:RecordName}<${2:T}> = record",
+      "  Value: ${2:T};",
+      "  ${0:// Additional fields}",
+      "end;"
+    ],
+    "description": "Generic record"
+  },
+  "Generic Interface": {
+    "prefix": "genericintf",
+    "body": [
+      "generic I${1:InterfaceName}<${2:T}> = interface",
+      "  function GetValue: ${2:T};",
+      "  procedure SetValue(const AValue: ${2:T});",
+      "  ${0:// Additional methods}",
+      "end;"
+    ],
+    "description": "Generic interface"
+  },
+  "Generic Specialization": {
+    "prefix": "specialize",
+    "body": [
+      "type",
+      "  ${1:TIntList} = specialize ${2:TGenericList}<${3:Integer}>;"
+    ],
+    "description": "Specialize generic type"
+  },
+  "Enumeration": {
+    "prefix": "enum",
+    "body": [
+      "T${1:EnumName} = (${2:Value1}, ${3:Value2}, ${4:Value3});"
+    ],
+    "description": "Enumeration type"
+  },
+  "Enumeration Scoped": {
+    "prefix": "enumscoped",
+    "body": [
+      "T${1:EnumName} = (",
+      "  ${2:en}${3:Value1} = ${4:0},",
+      "  ${2:en}${5:Value2} = ${6:1},",
+      "  ${2:en}${7:Value3} = ${8:2}",
+      ");"
+    ],
+    "description": "Scoped enumeration with prefix"
+  },
+  "Set Type": {
+    "prefix": "settype",
+    "body": [
+      "T${1:SetName} = set of ${2:TEnumType};"
+    ],
+    "description": "Set type"
+  },
+  "Subrange Type": {
+    "prefix": "subrange",
+    "body": [
+      "T${1:SubrangeName} = ${2:1}..${3:100};"
+    ],
+    "description": "Subrange type"
+  },
+  "Array Static": {
+    "prefix": "arraytype",
+    "body": [
+      "T${1:ArrayName} = array[${2:0}..${3:9}] of ${4:Integer};"
+    ],
+    "description": "Static array type"
+  },
+  "Array Dynamic": {
+    "prefix": "dynarraytype",
+    "body": [
+      "T${1:ArrayName} = array of ${2:Integer};"
+    ],
+    "description": "Dynamic array type"
+  },
+  "Array Multidimensional": {
+    "prefix": "arraymulti",
+    "body": [
+      "T${1:Matrix} = array[${2:0}..${3:9}, ${4:0}..${5:9}] of ${6:Double};"
+    ],
+    "description": "Multidimensional array"
+  },
+  "Array Packed": {
+    "prefix": "arraypacked",
+    "body": [
+      "T${1:PackedArray} = packed array[${2:0}..${3:255}] of ${4:Byte};"
+    ],
+    "description": "Packed array"
+  },
+  "Array of Const": {
+    "prefix": "arrayofconst",
+    "body": [
+      "procedure ${1:VarArgProc}(const ${2:Args}: array of const);",
+      "var",
+      "  ${3:i}: Integer;",
+      "begin",
+      "  for ${3:i} := Low(${2:Args}) to High(${2:Args}) do",
+      "  begin",
+      "    case ${2:Args}[${3:i}].VType of",
+      "      vtInteger: WriteLn(${2:Args}[${3:i}].VInteger);",
+      "      vtString: WriteLn(${2:Args}[${3:i}].VString^);",
+      "      vtAnsiString: WriteLn(string(${2:Args}[${3:i}].VAnsiString));",
+      "      vtObject: WriteLn(${2:Args}[${3:i}].VObject.ClassName);",
+      "    end;",
+      "  end;",
+      "end;"
+    ],
+    "description": "Procedure with array of const parameter"
+  },
+  "Pointer Type": {
+    "prefix": "pointer",
+    "body": [
+      "P${1:TypeName} = ^T${1:TypeName};"
+    ],
+    "description": "Pointer type"
+  },
+  "Procedure Pointer": {
+    "prefix": "procptr",
+    "body": [
+      "T${1:ProcType} = procedure${2:(${3:AParam: Integer})}${4: of object};"
+    ],
+    "description": "Procedural type"
+  },
+  "Function Pointer": {
+    "prefix": "funcptr",
+    "body": [
+      "T${1:FuncType} = function${2:(${3:AParam: Integer})}: ${4:Integer}${5: of object};"
+    ],
+    "description": "Function type"
+  },
+  "Method Reference": {
+    "prefix": "methodref",
+    "body": [
+      "T${1:MethodRef} = reference to ${2:procedure}${3:(${4:AParam: Integer})}${5:: ${6:Integer}};"
+    ],
+    "description": "Anonymous method reference (Delphi)"
+  },
+  "File Type": {
+    "prefix": "filetype",
+    "body": [
+      "T${1:FileType} = file of ${2:Integer};"
+    ],
+    "description": "Typed file"
+  },
+  "Variant Record": {
+    "prefix": "variant",
+    "body": [
+      "T${1:VariantRec} = record",
+      "  ${2:Common: Integer;}",
+      "  case ${3:Kind}: ${4:Byte} of",
+      "    ${5:0}: (${6:IntValue: Integer});",
+      "    ${7:1}: (${8:StrValue: String[255]});",
+      "    ${9:2}: (${10:RealValue: Double});",
+      "end;"
+    ],
+    "description": "Record with variant part"
+  },
+  "Constructor": {
+    "prefix": "constructor",
+    "body": [
+      "constructor T${1:ClassName}.Create${2:(${3:AParam: Integer})};",
+      "begin",
+      "  inherited Create;",
+      "  ${0:// Initialization}",
+      "end;"
+    ],
+    "description": "Constructor implementation"
+  },
+  "Constructor Overload": {
+    "prefix": "constructorover",
+    "body": [
+      "constructor T${1:ClassName}.Create${2:(${3:AParam: Integer})}; overload;",
+      "begin",
+      "  inherited Create;",
+      "  ${0:// Initialization}",
+      "end;"
+    ],
+    "description": "Overloaded constructor"
+  },
+  "Class Constructor": {
+    "prefix": "classconstructor",
+    "body": [
+      "class constructor T${1:ClassName}.Create;",
+      "begin",
+      "  ${0:// Class initialization}",
+      "end;"
+    ],
+    "description": "Class constructor (static initialization)"
+  },
+  "Destructor": {
+    "prefix": "destructor",
+    "body": [
+      "destructor T${1:ClassName}.Destroy;",
+      "begin",
+      "  ${0:// Cleanup}",
+      "  inherited Destroy;",
+      "end;"
+    ],
+    "description": "Destructor implementation"
+  },
+  "Class Destructor": {
+    "prefix": "classdestructor",
+    "body": [
+      "class destructor T${1:ClassName}.Destroy;",
+      "begin",
+      "  ${0:// Class cleanup}",
+      "end;"
+    ],
+    "description": "Class destructor (static finalization)"
+  },
+  "Procedure": {
+    "prefix": "procedure",
+    "body": [
+      "procedure ${1:Name}(${2:AParam: Integer});",
+      "begin",
+      "  ${0:// Implementation}",
+      "end;"
+    ],
+    "description": "Procedure"
+  },
+  "Procedure Forward": {
+    "prefix": "procforward",
+    "body": [
+      "procedure ${1:Name}(${2:AParam: Integer}); forward;"
+    ],
+    "description": "Forward declaration"
+  },
+  "Procedure External": {
+    "prefix": "procexternal",
+    "body": [
+      "procedure ${1:Name}(${2:AParam: Integer}); external '${3:library}' name '${4:exported_name}';"
+    ],
+    "description": "External procedure"
+  },
+  "Procedure Inline": {
+    "prefix": "procinline",
+    "body": [
+      "procedure ${1:Name}(${2:AParam: Integer}); inline;",
+      "begin",
+      "  ${0:// Fast inline code}",
+      "end;"
+    ],
+    "description": "Inline procedure"
+  },
+  "Procedure Assembler": {
+    "prefix": "procasm",
+    "body": [
+      "procedure ${1:Name}(${2:AParam: Integer}); assembler;",
+      "asm",
+      "  ${0:// Assembly code}",
+      "end;"
+    ],
+    "description": "Assembler procedure"
+  },
+  "Function": {
+    "prefix": "function",
+    "body": [
+      "function ${1:Name}(${2:AParam: Integer}): ${3:Integer};",
+      "begin",
+      "  Result := ${4:0};",
+      "  ${0:// Implementation}",
+      "end;"
+    ],
+    "description": "Function"
+  },
+  "Function Inline": {
+    "prefix": "funcinline",
+    "body": [
+      "function ${1:Name}(${2:AParam: Integer}): ${3:Integer}; inline;",
+      "begin",
+      "  Result := ${0:0};",
+      "end;"
+    ],
+    "description": "Inline function"
+  },
+  "Operator Overload": {
+    "prefix": "operator",
+    "body": [
+      "class operator T${1:ClassName}.${2:Add}(const ${3:A}, ${4:B}: T${1:ClassName}): T${1:ClassName};",
+      "begin",
+      "  ${0:// Implementation}",
+      "end;"
+    ],
+    "description": "Operator overloading"
+  },
+  "Operator Implicit": {
+    "prefix": "opimplicit",
+    "body": [
+      "class operator T${1:ClassName}.Implicit(${2:A}: ${3:Integer}): T${1:ClassName};",
+      "begin",
+      "  Result.${4:Value} := ${2:A};",
+      "end;"
+    ],
+    "description": "Implicit type conversion operator"
+  },
+  "Operator Explicit": {
+    "prefix": "opexplicit",
+    "body": [
+      "class operator T${1:ClassName}.Explicit(${2:A}: T${1:ClassName}): ${3:Integer};",
+      "begin",
+      "  Result := ${2:A}.${4:Value};",
+      "end;"
+    ],
+    "description": "Explicit type conversion operator"
+  },
+  "Property Simple": {
+    "prefix": "property",
+    "body": [
+      "property ${1:Name}: ${2:Integer} read F${1:Name} write Set${1:Name};"
+    ],
+    "description": "Property with getter/setter"
+  },
+  "Property Array": {
+    "prefix": "proparr",
+    "body": [
+      "property ${1:Items}[${2:Index}: Integer]: ${3:Integer} read Get${1:Items} write Set${1:Items}; default;"
+    ],
+    "description": "Array property"
+  },
+  "Property Stored": {
+    "prefix": "propstored",
+    "body": [
+      "property ${1:Name}: ${2:Integer} read F${1:Name} write Set${1:Name} stored ${3:IsStored};"
+    ],
+    "description": "Property with stored specifier"
+  },
+  "Property Implements": {
+    "prefix": "propimpl",
+    "body": [
+      "property ${1:MyInterface}: ${2:IMyInterface} read F${1:MyInterface} implements ${2:IMyInterface};"
+    ],
+    "description": "Property implementing interface"
+  },
+  "If Then": {
+    "prefix": "ift",
+    "body": [
+      "if ${1:condition} then",
+      "  ${0:Statement};"
+    ],
+    "description": "Simple if"
+  },
+  "If Then Else": {
+    "prefix": "if",
+    "body": [
+      "if ${1:condition} then",
+      "begin",
+      "  ${2:// true}",
+      "end",
+      "else",
+      "begin",
+      "  ${0:// false}",
+      "end;"
+    ],
+    "description": "if..then..else"
+  },
+  "If Else If Chain": {
+    "prefix": "ifelif",
+    "body": [
+      "if ${1:cond1} then",
+      "begin",
+      "  ${2:// branch 1}",
+      "end",
+      "else if ${3:cond2} then",
+      "begin",
+      "  ${4:// branch 2}",
+      "end",
+      "else if ${5:cond3} then",
+      "begin",
+      "  ${6:// branch 3}",
+      "end",
+      "else",
+      "begin",
+      "  ${0:// default}",
+      "end;"
+    ],
+    "description": "if..else if chain"
+  },
+  "For To": {
+    "prefix": "for",
+    "body": [
+      "for ${1:i} := ${2:0} to ${3:High(${4:Array})} do",
+      "begin",
+      "  ${0:// loop}",
+      "end;"
+    ],
+    "description": "for..to loop"
+  },
+  "For Downto": {
+    "prefix": "fordown",
+    "body": [
+      "for ${1:i} := ${2:High(${3:Array})} downto ${4:0} do",
+      "begin",
+      "  ${0:// loop}",
+      "end;"
+    ],
+    "description": "for..downto loop"
+  },
+  "For In": {
+    "prefix": "forin",
+    "body": [
+      "for ${1:item} in ${2:collection} do",
+      "begin",
+      "  ${0:// loop}",
+      "end;"
+    ],
+    "description": "for..in loop"
+  },
+  "While Do": {
+    "prefix": "while",
+    "body": [
+      "while ${1:condition} do",
+      "begin",
+      "  ${0:// loop}",
+      "end;"
+    ],
+    "description": "while loop"
+  },
+  "Repeat Until": {
+    "prefix": "repeat",
+    "body": [
+      "repeat",
+      "  ${0:// loop}",
+      "until ${1:condition};"
+    ],
+    "description": "repeat..until loop"
+  },
+  "Case Of": {
+    "prefix": "case",
+    "body": [
+      "case ${1:variable} of",
+      "  ${2:value1}: ${3:Statement1};",
+      "  ${4:value2}: ${5:Statement2};",
+      "else",
+      "  ${0:DefaultStatement};",
+      "end;"
+    ],
+    "description": "case..of statement"
+  },
+  "Case Advanced": {
+    "prefix": "caseadv",
+    "body": [
+      "case ${1:variable} of",
+      "  ${2:val1}:",
+      "    begin",
+      "      ${3:// block 1}",
+      "    end;",
+      "  ${4:val2}, ${5:val3}:",
+      "    begin",
+      "      ${6:// block 2}",
+      "    end;",
+      "  ${7:low}..${8:high}:",
+      "    begin",
+      "      ${9:// range}",
+      "    end;",
+      "else",
+      "  begin",
+      "    ${0:// default}",
+      "  end;",
+      "end;"
+    ],
+    "description": "Advanced case with ranges"
+  },
+  "With Do": {
+    "prefix": "with",
+    "body": [
+      "with ${1:object} do",
+      "begin",
+      "  ${0:// statements}",
+      "end;"
+    ],
+    "description": "with statement"
+  },
+  "Try Except": {
+    "prefix": "try",
+    "body": [
+      "try",
+      "  ${1:// code}",
+      "except",
+      "  on E: ${2:Exception} do",
+      "  begin",
+      "    ${0:// handler}",
+      "  end;",
+      "end;"
+    ],
+    "description": "try..except"
+  },
+  "Try Finally": {
+    "prefix": "tryf",
+    "body": [
+      "try",
+      "  ${1:// code}",
+      "finally",
+      "  ${0:// cleanup}",
+      "end;"
+    ],
+    "description": "try..finally"
+  },
+  "Try Except Finally": {
+    "prefix": "tryef",
+    "body": [
+      "try",
+      "  try",
+      "    ${1:// code}",
+      "  except",
+      "    on E: ${2:Exception} do",
+      "    begin",
+      "      ${3:// handler}",
+      "    end;",
+      "  end;",
+      "finally",
+      "  ${0:// cleanup}",
+      "end;"
+    ],
+    "description": "try..except..finally"
+  },
+  "Try Except Else": {
+    "prefix": "tryelse",
+    "body": [
+      "try",
+      "  ${1:// code}",
+      "except",
+      "  on E: ${2:ESpecific} do",
+      "    ${3:// specific handler}",
+      "else",
+      "  ${0:// general handler}",
+      "end;"
+    ],
+    "description": "try..except..else"
+  },
+  "Raise Exception": {
+    "prefix": "raise",
+    "body": "raise ${1:Exception}.Create('${2:message}');"
+  },
+  "Raise At": {
+    "prefix": "raiseat",
+    "body": "raise ${1:Exception}.CreateFmt('${2:%s}', [${3:args}]) at ${4:ReturnAddress};"
+  },
+  "Reraise": {
+    "prefix": "reraise",
+    "body": [
+      "except",
+      "  on E: ${1:Exception} do",
+      "  begin",
+      "    ${2:// log or modify}",
+      "    raise;",
+      "  end;",
+      "end;"
+    ],
+    "description": "Reraise exception"
+  },
+  "Asm Block": {
+    "prefix": "asm",
+    "body": [
+      "asm",
+      "  ${0:// assembly code}",
+      "end;"
+    ],
+    "description": "Assembly block"
+  },
+  "Asm Advanced": {
+    "prefix": "asmadv",
+    "body": [
+      "asm",
+      "  push ebp",
+      "  mov ebp, esp",
+      "  ${0:// code}",
+      "  mov esp, ebp",
+      "  pop ebp",
+      "end;"
+    ],
+    "description": "Assembly with stack frame"
+  },
+  "Goto Label": {
+    "prefix": "goto",
+    "body": [
+      "label",
+      "  ${1:MyLabel};",
+      "begin",
+      "  ${2:// code}",
+      "  goto ${1:MyLabel};",
+      "  ${1:MyLabel}:",
+      "  ${0:// target}",
+      "end;"
+    ],
+    "description": "goto statement with label"
+  },
+  "Absolute Variable": {
+    "prefix": "absolute",
+    "body": "${1:NewVar}: ${2:Integer} absolute ${3:ExistingVar};"
+  },
+  "Threadvar": {
+    "prefix": "threadvar",
+    "body": [
+      "threadvar",
+      "  ${1:ThreadLocalVar}: ${2:Integer};"
+    ],
+    "description": "Thread-local variable"
+  },
+  "Resourcestring": {
+    "prefix": "resourcestring",
+    "body": [
+      "resourcestring",
+      "  ${1:RS_Message} = '${2:Localized message}';"
+    ],
+    "description": "Resource string for localization"
+  },
+  "Exports": {
+    "prefix": "exports",
+    "body": [
+      "exports",
+      "  ${1:FunctionName}${2: name '${3:ExportName}'}${4: index ${5:1}};"
+    ],
+    "description": "Export declaration"
+  },
+  "Anonymous Method": {
+    "prefix": "anon",
+    "body": [
+      "${1:procedure}${2:(${3:param}: ${4:Integer})}",
+      "begin",
+      "  ${0:// code}",
+      "end"
+    ],
+    "description": "Anonymous method (Delphi)"
+  },
+  "Thread Class": {
+    "prefix": "thread",
+    "body": [
+      "T${1:Thread} = class(TThread)",
+      "protected",
+      "  procedure Execute; override;",
+      "public",
+      "  constructor Create(CreateSuspended: Boolean);",
+      "end;",
+      "",
+      "constructor T${1:Thread}.Create(CreateSuspended: Boolean);",
+      "begin",
+      "  inherited Create(CreateSuspended);",
+      "  FreeOnTerminate := ${2:True};",
+      "end;",
+      "",
+      "procedure T${1:Thread}.Execute;",
+      "begin",
+      "  while not Terminated do",
+      "  begin",
+      "    ${0:// work}",
+      "  end;",
+      "end;"
+    ],
+    "description": "Thread class"
+  },
+  "Critical Section": {
+    "prefix": "critical",
+    "body": [
+      "var",
+      "  ${1:CS}: TRTLCriticalSection;",
+      "",
+      "initialization",
+      "  InitCriticalSection(${1:CS});",
+      "",
+      "finalization",
+      "  DoneCriticalSection(${1:CS});"
+    ],
+    "description": "Critical section"
+  },
+  "Synchronized Method": {
+    "prefix": "synchronized",
+    "body": [
+      "procedure T${1:Class}.${2:Method};",
+      "begin",
+      "  TMonitor.Enter(Self);",
+      "  try",
+      "    ${0:// synchronized code}",
+      "  finally",
+      "    TMonitor.Exit(Self);",
+      "  end;",
+      "end;"
+    ],
+    "description": "Thread-synchronized method"
+  },
+  "Attribute": {
+    "prefix": "attribute",
+    "body": [
+      "T${1:Attribute}Attribute = class(TCustomAttribute)",
+      "private",
+      "  F${2:Value}: ${3:String};",
+      "public",
+      "  constructor Create(const A${2:Value}: ${3:String});",
+      "  property ${2:Value}: ${3:String} read F${2:Value};",
+      "end;"
+    ],
+    "description": "Custom attribute class"
+  },
+  "RTTI": {
+    "prefix": "rtti",
+    "body": [
+      "uses",
+      "  RTTI;",
+      "",
+      "var",
+      "  ${1:ctx}: TRttiContext;",
+      "  ${2:typ}: TRttiType;",
+      "begin",
+      "  ${1:ctx} := TRttiContext.Create;",
+      "  try",
+      "    ${2:typ} := ${1:ctx}.GetType(${3:TypeInfo(TMyClass)});",
+      "    ${0:// use RTTI}",
+      "  finally",
+      "    ${1:ctx}.Free;",
+      "  end;",
+      "end;"
+    ],
+    "description": "RTTI usage"
+  },
+  "Initialization Section": {
+    "prefix": "initialization",
+    "body": [
+      "initialization",
+      "  ${0:// unit initialization}"
+    ],
+    "description": "Initialization section"
+  },
+  "Finalization Section": {
+    "prefix": "finalization",
+    "body": [
+      "finalization",
+      "  ${0:// unit cleanup}"
+    ],
+    "description": "Finalization section"
+  },
+  "WriteLn": {
+    "prefix": "wln",
+    "body": "WriteLn(${1:'${2:text}'});"
+  },
+  "Write": {
+    "prefix": "wr",
+    "body": "Write(${1:'${2:text}'});"
+  },
+  "WriteLn Format": {
+    "prefix": "wlnf",
+    "body": "WriteLn(Format('${1:%s}', [${2:args}]));"
+  },
+  "ReadLn": {
+    "prefix": "rln",
+    "body": "ReadLn(${1:var});"
+  },
+  "Read": {
+    "prefix": "rd",
+    "body": "Read(${1:var});"
+  },
+  "File Operations": {
+    "prefix": "fileops",
+    "body": [
+      "var",
+      "  ${1:f}: ${2:TextFile};",
+      "begin",
+      "  AssignFile(${1:f}, '${3:filename.txt}');",
+      "  try",
+      "    ${4:Reset}(${1:f});",
+      "    try",
+      "      ${0:// file operations}",
+      "    finally",
+      "      CloseFile(${1:f});",
+      "    end;",
+      "  except",
+      "    on E: Exception do",
+      "      WriteLn('File error: ', E.Message);",
+      "  end;",
+      "end;"
+    ],
+    "description": "File operations with error handling"
+  },
+  "Typed File": {
+    "prefix": "typedfile",
+    "body": [
+      "var",
+      "  ${1:f}: file of ${2:Integer};",
+      "  ${3:data}: ${2:Integer};",
+      "begin",
+      "  AssignFile(${1:f}, '${4:data.dat}');",
+      "  Rewrite(${1:f});",
+      "  try",
+      "    ${3:data} := ${5:42};",
+      "    Write(${1:f}, ${3:data});",
+      "  finally",
+      "    CloseFile(${1:f});",
+      "  end;",
+      "end;"
+    ],
+    "description": "Typed file operations"
+  },
+  "Format": {
+    "prefix": "fmt",
+    "body": "Format('${1:%s}', [${2:args}])"
+  },
+  "Format Integer": {
+    "prefix": "fmtd",
+    "body": "Format('${1:%d}', [${2:int}])"
+  },
+  "Format Float": {
+    "prefix": "fmtf",
+    "body": "Format('${1:%.2f}', [${2:float}])"
+  },
+  "Format Hex": {
+    "prefix": "fmtx",
+    "body": "Format('${1:%.8x}', [${2:int}])"
+  },
+  "IntToStr": {
+    "prefix": "its",
+    "body": "IntToStr(${1:value})"
+  },
+  "StrToInt": {
+    "prefix": "sti",
+    "body": "StrToInt(${1:str})"
+  },
+  "StrToIntDef": {
+    "prefix": "stid",
+    "body": "StrToIntDef(${1:str}, ${2:default})"
+  },
+  "TryStrToInt": {
+    "prefix": "trysti",
+    "body": [
+      "if TryStrToInt(${1:str}, ${2:value}) then",
+      "  ${0:// success}"
+    ],
+    "description": "Safe string to integer conversion"
+  },
+  "FloatToStr": {
+    "prefix": "fts",
+    "body": "FloatToStr(${1:value})"
+  },
+  "StrToFloat": {
+    "prefix": "stf",
+    "body": "StrToFloat(${1:str})"
+  },
+  "SetLength": {
+    "prefix": "setlen",
+    "body": "SetLength(${1:arr}, ${2:length});"
+  },
+  "GetMem": {
+    "prefix": "getmem",
+    "body": [
+      "GetMem(${1:ptr}, ${2:size});",
+      "try",
+      "  ${0:// use memory}",
+      "finally",
+      "  FreeMem(${1:ptr});",
+      "end;"
+    ],
+    "description": "Memory allocation with cleanup"
+  },
+  "New Dispose": {
+    "prefix": "newdispose",
+    "body": [
+      "New(${1:ptr});",
+      "try",
+      "  ${0:// use pointer}",
+      "finally",
+      "  Dispose(${1:ptr});",
+      "end;"
+    ],
+    "description": "Dynamic variable allocation"
+  },
+  "Assert": {
+    "prefix": "assert",
+    "body": "Assert(${1:condition}, '${2:message}');"
+  },
+  "Compiler Directive Mode": {
+    "prefix": "mode",
+    "body": "{$mode ${1|objfpc,delphi,tp,fpc,macpas|}}",
+    "description": "Set compiler mode"
+  },
+  "Compiler Directive H": {
+    "prefix": "h+",
+    "body": "{$H+}",
+    "description": "Enable long strings"
+  },
+  "Compiler Directive Warnings": {
+    "prefix": "warn",
+    "body": "{$WARN ${1:code} ${2|on,off|} : ${3:message}}",
+    "description": "Control warnings"
+  },
+  "Compiler Directive Hints": {
+    "prefix": "hints",
+    "body": "{$HINTS ${1|ON,OFF|}}",
+    "description": "Control hints"
+  },
+  "Conditional Define": {
+    "prefix": "ifdef",
+    "body": [
+      "{$IFDEF ${1:SYMBOL}}",
+      "${0:// conditional code}",
+      "{$ENDIF}"
+    ],
+    "description": "Conditional compilation"
+  },
+  "Conditional IFOPT": {
+    "prefix": "ifopt",
+    "body": [
+      "{$IFOPT ${1:R+}}",
+      "${0:// conditional code}",
+      "{$ENDIF}"
+    ],
+    "description": "Conditional based on option"
+  },
+  "Platform Conditional": {
+    "prefix": "platform",
+    "body": [
+      "{$IFDEF WINDOWS}",
+      "${1:// Windows code}",
+      "{$ENDIF}",
+      "{$IFDEF UNIX}",
+      "${2:// Unix code}",
+      "{$ENDIF}",
+      "{$IFDEF MACOS}",
+      "${3:// macOS code}",
+      "{$ENDIF}"
+    ],
+    "description": "Platform-specific code"
+  },
+  "Include File": {
+    "prefix": "include",
+    "body": "{$I ${1:filename.inc}}",
+    "description": "Include external file"
+  },
+  "Link Object File": {
+    "prefix": "link",
+    "body": "{$L ${1:objfile.o}}",
+    "description": "Link object file"
+  },
+  "Resource": {
+    "prefix": "resource",
+    "body": "{$R ${1:resources.res}}",
+    "description": "Include resource file"
+  },
+  "Align": {
+    "prefix": "align",
+    "body": "{$ALIGN ${1|1,2,4,8,16|}}",
+    "description": "Data alignment"
+  },
+  "PackRecords": {
+    "prefix": "packrecords",
+    "body": "{$PACKRECORDS ${1|1,2,4,8,16,C,DEFAULT|}}",
+    "description": "Record packing alignment"
+  },
+  "Comment Block": {
+    "prefix": "cmt",
+    "body": [
+      "{",
+      "  ${0:Description}",
+      "}"
+    ],
+    "description": "Comment block"
+  },
+  "Doc Comment": {
+    "prefix": "doc",
+    "body": [
+      "/// <summary>",
+      "/// ${1:Description}",
+      "/// </summary>",
+      "/// <param name=\"${2:param}\">${3:Description}</param>",
+      "/// <returns>${4:Description}</returns>",
+      "${0}"
+    ],
+    "description": "XML documentation comment"
+  },
+  "Region": {
+    "prefix": "region",
+    "body": [
+      "{$REGION '${1:RegionName}'}",
+      "${0:// code}",
+      "{$ENDREGION}"
+    ],
+    "description": "Code region"
+  },
+  "Variable Integer": {
+    "prefix": "vint",
+    "body": "${1:name}: Integer${2: = ${3:0}};"
+  },
+  "Variable String": {
+    "prefix": "vstr",
+    "body": "${1:name}: String${2: = '${3:}'};"
+  },
+  "Variable Boolean": {
+    "prefix": "vbool",
+    "body": "${1:name}: Boolean${2: = ${3:False}};"
+  },
+  "Variable Array": {
+    "prefix": "varr",
+    "body": "${1:name}: array[${2:0}..${3:9}] of ${4:Integer};"
+  },
+  "Variable Dynamic Array": {
+    "prefix": "vdyn",
+    "body": "${1:name}: array of ${2:Integer};"
+  },
+  "Variable Pointer": {
+    "prefix": "vptr",
+    "body": "${1:name}: ^${2:Integer};"
+  },
+  "Variable Const": {
+    "prefix": "cconst",
+    "body": "${1:NAME} = ${2:value};"
+  },
+  "Typed Constant": {
+    "prefix": "typedconst",
+    "body": "${1:name}: ${2:Integer} = ${3:0};"
+  },
+  "Debug WriteLn": {
+    "prefix": "dbg",
+    "body": [
+      "{$IFDEF DEBUG}",
+      "WriteLn('DEBUG: ${1:message}');",
+      "{$ENDIF}"
+    ],
+    "description": "Debug output"
+  },
+  "ToDo Comment": {
+    "prefix": "todo",
+    "body": "// TODO: ${0:description}"
+  },
+  "FixMe Comment": {
+    "prefix": "fixme",
+    "body": "// FIXME: ${0:description}"
+  },
+  "Note Comment": {
+    "prefix": "note",
+    "body": "// NOTE: ${0:description}"
+  },
+  "Hack Comment": {
+    "prefix": "hack",
+    "body": "// HACK: ${0:description}"
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "name": "pascal-language-server",
+  "displayName": "Pascal Language Server",
+  "description": "Professional Pascal language support with LSP-based IntelliSense, diagnostics, and navigation",
+  "version": "1.0.0",
+  "publisher": "PlayRood",
+  "author": {
+    "name": "Yishay Oved"
+  },
+  "icon": "images/icon.png",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "keywords": [
+    "pascal",
+    "delphi",
+    "free pascal",
+    "fpc",
+    "object pascal",
+    "lsp"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/PlayRood32/vscode-pascal"
+  },
+  "main": "./client/out/extension.js",
+  "activationEvents": [
+    "onLanguage:pascal"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "pascal",
+        "aliases": ["Pascal", "Object Pascal", "Delphi", "Free Pascal"],
+        "extensions": [".pas", ".pp", ".dpr", ".lpr", ".inc"],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "pascal",
+        "scopeName": "source.pascal",
+        "path": "./syntaxes/pascal.tmLanguage.json"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "pascal",
+        "path": "./snippets/snippets.json"
+      }
+    ],
+    "configuration": {
+      "title": "Pascal Language Server",
+      "properties": {
+        "pascal.compiler.path": {
+          "type": "string",
+          "default": "fpc",
+          "description": "Path to Free Pascal Compiler executable"
+        },
+        "pascal.compiler.mode": {
+          "type": "string",
+          "default": "FPC",
+          "enum": ["FPC", "Delphi", "TP"],
+          "description": "Compiler compatibility mode"
+        },
+        "pascal.trace.server": {
+          "type": "string",
+          "enum": ["off", "messages", "verbose"],
+          "default": "off",
+          "description": "Trace level for LSP communication"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "npm run compile:client && npm run compile:server",
+    "compile:client": "cd client && npm run compile",
+    "compile:server": "cd server && npm run compile",
+    "watch": "concurrently \"cd client && npm run watch\" \"cd server && npm run watch\"",
+    "postinstall": "cd client && npm install && cd ../server && npm install",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@vscode/vsce": "^2.22.0",
+    "concurrently": "^8.2.0",
+    "typescript": "^5.3.0"
+  }
+}
