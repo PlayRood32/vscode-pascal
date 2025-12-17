@@ -26,17 +26,29 @@ Professional Pascal language support for Visual Studio Code with Language Server
 - Works across files
 - Supports procedures, functions, types, variables
 
+#### **Rename Symbol**
+- Rename across the current file
+
+#### **Diagnostics**
+- Real-time error checking with red squiggles
+- Undeclared identifiers
+- Mismatched `begin`/`end`
+- Missing semicolons
+- Quick fixes (Ctrl+.) – declare variable or add semicolon
+
 #### **Syntax Highlighting**
 - Complete Pascal syntax support
 - Keywords, operators, types
 - Strings, comments, numbers
 - Compiler directives
 
+#### **Code Formatting**
+- Basic auto-indentation for blocks
+
 #### **Code Snippets**
-- 120+ ready-to-use snippets
-- Program templates
-- Control structures
-- OOP patterns
+- 30+ ready-to-use snippets
+- Program templates with automatic filename insertion
+- Variable declarations, constants, control structures
 
 #### **Document Symbols**
 - Outline view
@@ -51,13 +63,13 @@ This extension uses **Language Server Protocol (LSP)**:
   - **Lexer**: Tokenization
   - **Parser**: AST generation
   - **Semantic Analysis**: Symbol resolution
-  - **Providers**: Completion, Hover, Definition
+  - **Providers**: Completion, Hover, Definition, Diagnostics, Rename
 
 ## 📦 Installation
 
 ### Prerequisites
 
-Install Free Pascal Compiler:
+Install Free Pascal Compiler (optional for future features):
 
 **Windows:**
 ```powershell
@@ -72,7 +84,7 @@ brew install fpc
 **Linux:**
 ```bash
 sudo apt install fpc  # Ubuntu/Debian
-sudo pacman -S fpc    # Arch
+sudo pacman -S fpc    # Arch btw
 ```
 
 ### Install Extension
@@ -132,8 +144,6 @@ View all symbols in current file in Explorer sidebar.
 
 ```json
 {
-  "pascal.compiler.path": "fpc",
-  "pascal.compiler.mode": "FPC",
   "pascal.trace.server": "off"
 }
 ```
@@ -142,9 +152,11 @@ View all symbols in current file in Explorer sidebar.
 
 | Setting | Type | Default | Description |
 |---------|------|---------|-------------|
-| `pascal.compiler.path` | string | `"fpc"` | Path to FPC compiler |
-| `pascal.compiler.mode` | string | `"FPC"` | Compiler mode (FPC/Delphi/TP) |
 | `pascal.trace.server` | string | `"off"` | LSP trace level |
+
+
+📋 Full List of Code Snippets (click to expand)
+
 
 ## 🔧 Development
 
@@ -169,26 +181,39 @@ npm run package
 
 ```
 vscode-pascal/
-├── client/              # VS Code extension
+├── client/                    # VS Code Extension
+│   ├── src/
+│   │   └── extension.ts
+│   ├── package.json
+│   └── tsconfig.json
+├── server/                    # Language Server (LSP)
+│   ├── src/
+│   │   ├── server.ts
+│   │   ├── parser/
+│   │   │   ├── lexer.ts
+│   │   │   ├── parser.ts
+│   │   │   └── ast.ts
+│   │   ├── analyzer/
+│   │   │   └── symbolTable.ts
+│   │   ├── providers/
+│   │   │   ├── completionProvider.ts
+│   │   │   ├── hoverProvider.ts
+│   │   │   ├── definitionProvider.ts
+│   │   │   ├── diagnosticProvider.ts
+│   │   │   ├── formatter.ts
+│   │   │   └── refactoringProvider.ts
+│   │   └── workspace/
+│   │       └── documentManager.ts
+│   ├── package.json
+│   └── tsconfig.json
+├── shared/                    # Shared code
 │   └── src/
-│       └── extension.ts
-├── server/              # Language Server
-│   └── src/
-│       ├── server.ts
-│       ├── parser/
-│       │   ├── lexer.ts
-│       │   ├── parser.ts
-│       │   └── ast.ts
-│       ├── providers/
-│       │   ├── completionProvider.ts
-│       │   ├── hoverProvider.ts
-│       │   ├── definitionProvider.ts
-│       │   └── diagnosticProvider.ts
-│       └── workspace/
-│           └── documentManager.ts
-└── shared/              # Shared types
-    └── src/
-        └── types.ts
+│       └── types.ts
+├── syntaxes/
+│   └── pascal.tmLanguage.json
+├── snippets/
+│   └── snippets.json
+└── package.json              # Root package.json
 ```
 
 ### Debug
@@ -200,56 +225,40 @@ vscode-pascal/
 
 ## 🐛 Known Limitations
 
-- **No formatting yet** - Coming soon
-- **Basic diagnostics** - Parser-based only (no FPC integration yet)
-- **Limited semantic analysis** - Type inference is basic
-- **No refactoring** - Extract method, rename, etc. planned
+- Multi-file symbol resolution limited
+- Advanced refactoring planned
+- FPC integration for diagnostics coming soon
 
 ## 🗺️ Roadmap
 
 ### Version 1.1
-- [ ] Better semantic analysis
+- [ ] Multi-file support improvements
 - [ ] Type inference
-- [ ] Member completion improvements
+- [ ] Member completion enhancements
 
 ### Version 1.2
-- [ ] Code formatting
+- [ ] Advanced code formatting
 - [ ] Refactoring actions
 - [ ] Find all references
 
 ### Version 2.0
 - [ ] FPC integration for diagnostics
-- [ ] Project support (.dpr, .dproj)
+- [ ] Project support (.dpr, .lproj)
 - [ ] Debug adapter
 
 ## 🤝 Contributing
 
-Contributions welcome!
-
-```bash
-git clone https://github.com/PlayRood32/vscode-pascal
-cd vscode-pascal
-npm install
-code .
-```
-
-Press `F5` to start debugging.
+Contributions welcome! Fork and submit pull requests.
 
 ## 📄 License
 
-MIT License - see [LICENSE](LICENSE) file.
+MIT License – see [LICENSE](LICENSE)
 
 ## 👨‍💻 Author
 
-**Yishay Oved (PlayRood)**
-- GitHub: [@PlayRood32](https://github.com/PlayRood32)
-
-## 🙏 Acknowledgments
-
-- Free Pascal team
-- VS Code team
-- LSP specification authors
+**Yishay Oved (PlayRood)**  
+GitHub: [@PlayRood32](https://github.com/PlayRood32)
 
 ---
 
-**Built with ❤️ using Language Server Protocol**
+**Built with ❤️ for the Pascal community**

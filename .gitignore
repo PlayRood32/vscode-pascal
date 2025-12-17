@@ -1,1 +1,25 @@
-node_modules
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+yarn-debug.log
+
+# VS Code
+.vscode/
+*.vsix
+
+# Build output
+client/out/
+server/out/
+out/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Temporary
+*.tmp
+*.temp
